@@ -1,12 +1,12 @@
 # Site settings
-title: haska blog
+title: haska 博客
 email: haska1025@outlook.com
 description: > # this means to ignore newlines until "baseurl:"
   寸步累积行千里 滴水汇聚成大海
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://yourdomain.com" # the base hostname & protocol for your site
-twitter_username: jekyllrb
-github_username:  jekyll
+#twitter_username: jekyllrb
+github_username:  haska1025
 
 # Build settings
 encoding: utf-8
