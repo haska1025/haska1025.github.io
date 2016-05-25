@@ -221,7 +221,7 @@ I have an alternate solution that should always work (even though it's not requi
     $comet month_end || (echo "Hello ,Comet did not work " | mail myself; exit)
     如果该脚本执行失败了，先给自己发个邮件，然后再退出.
 ###ubuntu进入单用户模式
-(1)	开机重启，压<ESC>键，进入下面界面
+(1) 开机重启，压<ESC>键，进入下面界面
  
 (2) 通过键盘上下光标键，选择第二项(recovery mode)，然后按<e>键，记住不是回车。进入下面界面：
  
@@ -229,24 +229,24 @@ I have an alternate solution that should always work (even though it's not requi
  
 (4) 修改 ro single 为 rw single init=/bin/bash ，然后按<回车键> , 按 <b> 键，重新引导。
 ###获取cpu cache line size
-（1）/sys/devices/system/cpu/cpu0/cache/
+(1) /sys/devices/system/cpu/cpu0/cache/
 This directory has a subdirectory for each level of cache. Each of those directories contains the following files:
-coherency_line_size
+coherency\_line\_size
 level
-number_of_sets
-physical_line_partition
-shared_cpu_list
-shared_cpu_map
+number\_of\_sets
+physical\_line\_partition
+shared\_cpu\_list
+shared\_cpu\_map
 size
 type
-ways_of_associativity
-coherency_line_size记录的就是cpu cache line size。
+ways\_of\_associativity
+coherency\_line\_size记录的就是cpu cache line size。
 
-（2）sysconf (_SC_LEVEL1_DCACHE_LINESIZE)
-（3）You can also get it from the command line using getconf:
-     $ getconf LEVEL1_DCACHE_LINESIZE
+(2) sysconf (\_SC_LEVEL1\_DCACHE\_LINESIZE)
+(3) You can also get it from the command line using getconf:
+     $ getconf LEVEL1\_DCACHE\_LINESIZE
 
-（4）intel cpu ，用cpuid指令，可以参考nginx源码。
+(4) intel cpu ，用cpuid指令，可以参考nginx源码。
 ##基本工具的使用
 **2.1	利用鼠标，在linux终端进行文本选择，拷贝的技巧**
 
