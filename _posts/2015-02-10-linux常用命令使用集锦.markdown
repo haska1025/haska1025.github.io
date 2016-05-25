@@ -230,268 +230,188 @@ I have an alternate solution that should always work (even though it's not requi
 (4) 修改 ro single 为 rw single init=/bin/bash ，然后按<回车键> , 按 <b> 键，重新引导。
 ###获取cpu cache line size
 （1）/sys/devices/system/cpu/cpu0/cache/
-
 This directory has a subdirectory for each level of cache. Each of those directories contains the following files:
-
 coherency_line_size
-
 level
-
 number_of_sets
-
 physical_line_partition
-
 shared_cpu_list
-
 shared_cpu_map
-
 size
-
 type
-
 ways_of_associativity
-
 coherency_line_size记录的就是cpu cache line size。
 
 （2）sysconf (_SC_LEVEL1_DCACHE_LINESIZE)
-
 （3）You can also get it from the command line using getconf:
-
-$ getconf LEVEL1_DCACHE_LINESIZE
+     $ getconf LEVEL1_DCACHE_LINESIZE
 
 （4）intel cpu ，用cpuid指令，可以参考nginx源码。
 ##基本工具的使用
-2.1	利用鼠标，在linux终端进行文本选择，拷贝的技巧
+**2.1	利用鼠标，在linux终端进行文本选择，拷贝的技巧**
 
 If you highlight some text by holding down the left mouse button and
 dragging the mouse over it (or double-clicking a word), it is copied into a buffer
 maintained by X. Pressing the middle mouse button will cause the text to be
 pasted at the cursor location
 
-2.2	Shell操作，cd命令的技巧
+**2.2	Shell操作，cd命令的技巧**
 
 Shortcut                       Result
-
 cd              Changes the working directory to your home directory.
-
 cd  \-           Changes the working directory to the previous working directory.
-
 cd  ~username  Changes the working directory to the home directory of username. For example, cd ~bob changes the directory tothe home directory of user bob.
 
-2.3	awk
+**2.3	awk**
 
 2.3.1	printf，格式化输出，类似c语言的printf的使用
-
 2.3.2	strtonum 将字符串转换为数字
-
-将16进制字符串，打印成十进制字符串转换为10进制整数:
-str16 = “aabb0022”;
-
-strtonum(“0x”str16);
+     将16进制字符串，打印成十进制字符串转换为10进制整数:
+     str16 = “aabb0022”;
+     strtonum(“0x”str16);
 
 2.3.3	split切分字符串
 
-2.4	grep多个过滤条件
+**2.4	grep多个过滤条件**
 
-grep '<pattern_1>\|<pattern_2>\|...<pattern_N>'
+     grep '<pattern_1>\|<pattern_2>\|...<pattern_N>'
 
-2.5	tar 命令的使用
+**2.5	tar 命令的使用**
 
-打包到test.tar文件：tar cvf test.tar ./tes
-t
-解包test.tar到当前目录: tar xvf test.tar
+    打包到test.tar文件：tar cvf test.tar ./test
+    解包test.tar到当前目录: tar xvf test.tar
+    打包到标准输出: tar cvf - ./test
+    将标准输入的包解包: tar xvf –
 
-打包到标准输出: tar cvf - ./test
-
-将标准输入的包解包: tar xvf –
-
-2.6	qemu-kvm shell虚拟机管理工具
+**2.6	qemu-kvm shell虚拟机管理工具**
 
 virsh；提供了好多命令，virsh –help 可以查看具体的使用方法
-
 虚拟机的镜像文件路径：/var/lib/libvirt/images
-
 虚拟机的配置文件路径：/etc/libvirt/qemu
 
-2.7	shell 函数
+**2.7	shell 函数**
 
 readlink:读一个符号链接的实体文件。
-
 lsof : 列出所有打开的文件信息列表。
 
-2.8	apt 管理软件包
+**2.8	apt 管理软件包**
 
-apt-get install xxx 安装xxx 
-
+apt-get install xxx 安装xxx
       -d 仅下载
       -f 强制安装
 
-apt-get remove xxx 卸载xxx 
-
-apt-get update 更新软件信息数据库 
-
-apt-get upgrade 进行系统升级 
-
+apt-get remove xxx 卸载xxx
+apt-get update 更新软件信息数据库
+apt-get upgrade 进行系统升级
 apt-cache search 搜索软件包
-
 apt-get source package 下载源码包，在source.list中必须有deb-src配置
 
-2.9	dpkg包管理
+**2.9	dpkg包管理**
 
 dpkg -i | --install xxx.deb  安装deb软件包
- 
-dpkg -r | --remove xxx.deb 卸载已经安装的软件包 
-
+dpkg -r | --remove xxx.deb 卸载已经安装的软件包
 dpkg -r -P | --purge xxx.deb  连同配置文件一起删除
- 
 dpkg -I | -info xxx.deb 查看已经安装软件包信息
- 
 dpkg -L xxx.deb 查看已经安装deb包的详情
- 
 dpkg -l 查看系统中已安装软件包信息
- 
 dpkg-reconfigure xxx 重新配置软件包
-
 dpkg-deb –x xxx.deb &lt;dir&gt; 抽取未安装软件包安装信息
-
 dpkg-deb –X xxx.deb &lt;dir&gt; 抽取未安装软件包安装信息，并且显示
-
 dpkg-deb –e xxx.deb 抽取包控制信息
-
 dpkg-source -x filename.dsc  解压源码包，在source.list中必须有deb-src配置
-
 dpkg-buildpackage -us -uc –rfakeroot  构建一个deb包
-
 dpkg --get-selections > package_list 获取所有已经按照deb包列表，保存在package_list中
-
 dpkg --set-selections < package_list 将package_list中deb列表，导入
-
 apt-get dselect-upgrade 升级package_list中指定的软件包
 
-
-2.10	lsof
+**2.10	lsof**
 
 查看打开的文件描述符个数。
-
 lsof -p ``14724''；查看进程id为14724的进程打开的文件描述符
 
-2.11	pidof
+**2.11	pidof**
 
 根据进程名称，查看进程id
-
 root@VM-Ubuntu203001:/home/dts-pc2.0-rudp/src# pidof tang_dts
-
 19224
 
 root@VM-Ubuntu203001:/home/dts-pc2.0-rudp/src# ps  aux |grep tang_dts
-
 root     19224  0.5  3.8 951820 39936 ?        Ssl  Nov06  45:42 /tang/sbin/tang_dts start -c/var/run/tang/dts.conf
-
 root     22028  0.0  0.0   1808   540 pts/4    R+   17:12   0:00 grep tang_dts
 
 root@VM-Ubuntu203001:/home/dts-pc2.0-rudp/src# pidof -x tang_dts
-
 19224
 
 root@VM-Ubuntu203001:/home/dts-pc2.0-rudp/src# pidof -s tang_dts
-
 19224
 
-2.12	dd
+**2.12	dd**
 
-convert and copy a file
+    convert and copy a file
 
-2.13	stat
+**2.13	stat**
 
 查询文件信息。例如，
-
 root@VM-Ubuntu203001:~/source/nginx-1.2.0# stat configure
  
-2.14	mkfifo
+**2.14	mkfifo**
 
 创建一个fifo文件描述符
 
-2.15	查看文件的inode号
+**2.15	查看文件的inode号**
 
 root@VM-Ubuntu203001:~# ls –i
 
-2.16	mount
+**2.16	mount**
 
 root@VM-Ubuntu203001:/home# mount    //查询系统的挂在文件系统
 
-2.17	fdisk –l 查看系统的分区数
+**2.17	fdisk –l 查看系统的分区数**
 
 例如，
-
 root@VM-Ubuntu203001:~/source/nginx-1.2.0# fdisk -l
 
-2.18	ulimit
+**2.18	ulimit**
 
 ulimit –a;查看系统所有限制信息
 
 root@VM-Ubuntu203001:/var/log# ulimit -a
-
 core file size          (blocks, -c) 0
-
 data seg size           (kbytes, -d) unlimited
-
 scheduling priority             (-e) 0
-
 file size               (blocks, -f) unlimited
-
 pending signals                 (-i) 8191
-
 max locked memory       (kbytes, -l) 32
-
 max memory size         (kbytes, -m) unlimited
-
 open files                      (-n) 1024
-
 pipe size            (512 bytes, -p) 8
-
 POSIX message queues     (bytes, -q) 819200
-
 real-time priority              (-r) 0
-
 stack size              (kbytes, -s) 8192
-
 cpu time               (seconds, -t) unlimited
-
 max user processes              (-u) 8191
-
 virtual memory          (kbytes, -v) unlimited
-
 file locks                      (-x) unlimited
-
 可以根据后面括号中的选项，进行设置。如要设置open files
-
 ulimit –n 4096
 
-2.19	代码行统计工具sloccount
+**2.19	代码行统计工具sloccount**
 
 root@VM-Ubuntu203001:/home/rudp# sloccount src lib
 
-2.20	linux进程间通信机制查询
+**2.20	linux进程间通信机制查询**
 
 Linux进程间通信由以下几部分发展而来：
-
 早期UNIX进程间通信：包括管道、FIFO、信号。
-
 基于System V的进程间通信：包括System V消息队列、System V信号灯（Semaphore）、System V共享内存。
-
 基于Socket进程间通信。
-
 基于POSIX进程间通信：包括POSIX消息队列、POSIX信号灯、POSIX共享内存。
-
 Linux中，与IPC相关的命令包括：ipcs、ipcrm（释放IPC）、
-
 IPCS命令是Linux下显示进程间通信设施状态的工具。我们知道，系统进行进程间通信（IPC）的时候，可用的方式包括信号量、共享内存、消息队列、管道、信号（signal）、套接字等形式[2]。使用IPCS可以查看共享内存、信号量、消息队列的状态。
-
 ipcs
-
 ipcrm
 
-2.21	netstat
+**2.21	netstat**
 
 usage: netstat [-veenNcCF] [<Af>] -r         netstat {-V|--version|-h|--help}
        netstat [-vnNcaeol] [<Socket> ...]
@@ -525,46 +445,34 @@ Next, most people look at the state. Any session in Listening mode shouldn't hav
 When you look for malware, the ports to concentrate on are unexplained Established connections to remote Internet addresses, unexplained TCP ports in Listening mode, and unexplained UDP ports. Many UDP ports have a twin entry in the TCP Listening mode because the application opening the port can use UDP or TCP, depending on the situation. If a UDP port doesn't have a matching TCP entry, research it. If a UDP port does have a matching TCP entry, you can concentrate on the TCP port for your research.
 
 2.21.2	netstat –s查看网络统计
-
 netstat –su ; 查看udp网络统计信息
-
 netstat –st; 查看tcp网络统计信息
 
 2.21.3	netstat –rn 查看路由表
-
 2.21.4	netstat –an 查看连接情况
-
 2.21.5	netstat –i 查看网络接口信息
-
 2.21.6	netstat –g 查看IGMP组信息
+    cat /proc/net/igmp
 
-cat /proc/net/igmp
-
-2.22	svn
-
+**2.22	svn**
 2.22.1	svn log
-
-查看提交记录
+   查看提交记录
 
 2.22.2	svn diff
-
-比较工作拷贝和版本库
+   比较工作拷贝和版本库
 
 2.22.3	svn diff -r 3 rules.txt
 
-比较工作拷贝和revision 3版本
+   比较工作拷贝和revision 3版本
 
 2.22.4	svn diff -r 2:3 rules.txt
-
-比较revision 2和revision 3版本
+   比较revision 2和revision 3版本
 
 2.22.5	svn diff -c 3 rules.txt
-
-与前一个修订版本比较更方便的办法是使用--change (-c)
+   与前一个修订版本比较更方便的办法是使用--change (-c)
 
 2.22.6	svn cat -r 2 rules.txt
-
-如果你只是希望检查一个过去的版本而不希望察看它们的区别，使用svn cat
+   如果你只是希望检查一个过去的版本而不希望察看它们的区别，使用svn cat
 
 2.22.7	svn checkout -r 1729 
 
@@ -593,27 +501,26 @@ $ svn export http://svn.example.com/svn/repos1 -r 1729
 
 导入当前目录的文件到svn库
 
-2.23	nload
+**2.23	nload**
 
 查看网卡流量
 
-2.24	sar
+**2.24	sar**
 
 查看网卡数据统计，如：
-
 sar –n dEV <统计时间间隔> <统计次数>
 
-2.25	vmstat
+**2.25	vmstat**
 
 查看进程执行情况
 
-2.26	dstat
+**2.26	dstat**
 
 mpstat , vmstat,iostat ,sar等工具的工具集
 
-2.27	sytemtap
+**2.27	sytemtap**
 
-2.28	autoconf工程设置gcov/lcov
+**2.28	autoconf工程设置gcov/lcov**
 
 1)	./configure CPPFLAGS="--coverage" LIBS="--coverage"
 
@@ -627,11 +534,11 @@ mpstat , vmstat,iostat ,sar等工具的工具集
 
 6)	w3m index.html
 
-2.29	zcat, zless, zmore, zgrep, zcmp, zdiff
+**2.29	zcat, zless, zmore, zgrep, zcmp, zdiff**
 
 查看gzip压缩的文件
 
-2.30	gnuplot
+**2.30	gnuplot**
 
 gnuplot是一个画图工具，可以画一些曲线图。具有linux、windows版本。
 
@@ -669,7 +576,7 @@ plot 'dts_09261600.txt' using 7:3 title "Winsize" with linespoints lc rgb "green
 		 'dts_09261600.txt' using 7:4 title "RTTMEAN" with linespoints lc rgb "red",	\
      'dts_09261600.txt' using 7:5 title "rtt" with linespoints lc rgb "blue"
 
-2.31	ifconfig 
+**2.31	ifconfig**
 
 2.31.1	to assign Multiple IP addresses to eth0
 
