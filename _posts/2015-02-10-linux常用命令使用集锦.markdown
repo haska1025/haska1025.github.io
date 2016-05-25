@@ -56,19 +56,19 @@ categories: linux
     这个文件是一个系统配置文件，主要记录了一些挂在文件的信息。当linux系统启动的时候，会读取这个文件，自动挂载。
     如果在linux终端下面执行 cat /etc/fstab ，会显示这个文件的格式，如下：
 
-    &lt;file system&gt;  &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;
+    <file system>  <mount point>   <type>  <options>       <dump>  <pass>
 
     一共有6个配置项，我们分别进行说明：
 
     我们以挂载命令：mount -t nfs 192.168.40.211:/test/drbd/conf /test/etc_tms 进行说明。
 
-    &lt;file system&gt; : 需要挂在的设备文件，或者普通文件。比如 /dev/hda1 或者上面的192.168.40.211:/test/drbd/conf
+    <file system> : 需要挂在的设备文件，或者普通文件。比如 /dev/hda1 或者上面的192.168.40.211:/test/drbd/conf
 
-    &lt;mount point&gt;: 要选择的挂载点。
+    <mount point>: 要选择的挂载点。
 
-    &lt;type&gt;：文件系统的类型，linux支持的文件系统类型有：adfs、befs、cifs、ext3、 ext2、ext、iso9660、kafs、minix、msdos、vfat、umsdos、proc、reiserfs、swap、 squashfs、nfs、hpfs、ncpfs、ntfs、affs、ufs。
+    <type>：文件系统的类型，linux支持的文件系统类型有：adfs、befs、cifs、ext3、 ext2、ext、iso9660、kafs、minix、msdos、vfat、umsdos、proc、reiserfs、swap、 squashfs、nfs、hpfs、ncpfs、ntfs、affs、ufs。
 
-    &lt;options&gt;：设置选项，各个选项用逗号隔开。如下：
+    <options>：设置选项，各个选项用逗号隔开。如下：
 
     auto: 系统自动挂载，fstab默认就是这个选项
 
@@ -86,9 +86,9 @@ categories: linux
 
     请注意光驱和软驱只有在装有介质时才可以进行挂载，因此它是noauto
 
-    &lt;dump&gt;：一般填0
+    <dump>：一般填0
 
-    &lt;pass&gt;：一般填0
+    <pass>：一般填0
     ###在linux平台下，设置core dump文件生成的方法
 
     1) 在终端中输入ulimit -c 如果结果为0，说明当程序崩溃时，系统并不能生成core dump。
@@ -142,15 +142,15 @@ categories: linux
     sysctl net.ipv4.ip_local_port_range
     sysctl net.ipv4.tcp_fin_timeout
 
-    The ephermal port range defines the maximum number of outbound sockets a host can create from a particular I.P. address. The fin\_timeout defines the minimum time these sockets will stay in TIME_WAIT state (unusable after being used once). Usual system defaults are:
+    The ephermal port range defines the maximum number of outbound sockets a host can create from a particular I.P. address. The fin_timeout defines the minimum time these sockets will stay in TIME_WAIT state (unusable after being used once). Usual system defaults are:
     
     •	net.ipv4.ip_local_port_range = 32768 61000
     •	net.ipv4.tcp_fin_timeout = 60
 
-    This basically means your system cannot guarantee more than (61000 - 32768) / 60 = 470 sockets at any given time. If you are not happy with that, you could begin with increasing the port\_range. Setting the range to 15000 61000 is pretty common these days. You could further increase the availability by decreasing the fin\_timeout. Suppose you do both, you should see over 1500 outbound connections, more readily.
+    This basically means your system cannot guarantee more than (61000 - 32768) / 60 = 470 sockets at any given time. If you are not happy with that, you could begin with increasing the port_range. Setting the range to 15000 61000 is pretty common these days. You could further increase the availability by decreasing the fin_timeout. Suppose you do both, you should see over 1500 outbound connections, more readily.
     Added this in my edit:
     The above should not be interpreted as the factors impacting system capability for making outbound connections / second. But rather these factors affect system's ability to handle concurrent connections in a sustainable manner for large periods of activity.
-    Default Sysctl values on a typical linux box for tcp\_tw\_recycle & tcp\_tw\_reuse would be:
+    Default Sysctl values on a typical linux box for tcp_tw_recycle & tcp_tw_reuse would be:
 
     net.ipv4.tcp_tw_recycle = 0
     net.ipv4.tcp_tw_reuse = 0
@@ -160,7 +160,7 @@ categories: linux
     net.ipv4.tcp_tw_recycle = 1
     net.ipv4.tcp_tw_reuse = 1 
 
-    This allows fast cycling of sockets in time\_wait state and re-using them. But before you do this change make sure that this does not conflict with the protocols that you would use for the application that needs these sockets.
+    This allows fast cycling of sockets in time_wait state and re-using them. But before you do this change make sure that this does not conflict with the protocols that you would use for the application that needs these sockets.
     On the Server Side: The net.core.somaxconn value has an important role. It limits the maximum number of requests queued to a listen socket. If you are sure of your server application's capability, bump it up from default 128 to something like 128 to 1024. Now you can take advantage of this increase by modifying the listen backlog variable in your application's listen call, to an equal or higher integer.
     txqueuelen parameter of your ethernet cards also have a role to play. Default values are 1000, so bump them up to 5000 or even more if your system can handle it.
     Similarly bump up the values for net.core.netdev_max_backlog and net.ipv4.tcp_max_syn_backlog. Their default values are 1000 and 1024 respectively.
