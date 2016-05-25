@@ -27,94 +27,90 @@ categories: linux
 
 ##系统配置
 ###查看ubuntu的版本号
-cat /etc/issue
+
+    cat /etc/issue
 
 ###linux下修改时间为上海时间[东8区]
-mv  /etc/localtime /etc/localtime.bak
 
-cp  /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+    mv  /etc/localtime /etc/localtime.bak
+    cp  /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 ###Ubuntu中用命令校正系统时间
-sudo ntpdate 210.72.145.44
+
+    sudo ntpdate 210.72.145.44
 
 ###Linux socket接收缓冲区大小的配置：
-/proc/sys/net/core/rmem_default
 
-/proc/sys/net/core/rmem_max
-
-/proc/net/udp, which is reporting used rcv buffer sizes, though.
-
-/proc/net/dev 维护网卡数据接收情况
+    /proc/sys/net/core/rmem_default
+    /proc/sys/net/core/rmem_max
+    /proc/net/udp, which is reporting used rcv buffer sizes, though.
+    /proc/net/dev 维护网卡数据接收情况
 ###sysctl 设置linux系统参数
-sysctl –a; 查询系统所有参数的配置
 
-sysctl –w net.ipv4.tcp_max_syn_backlog=32000;设置同时可以连接的tcp套接字数
-
-sysctl fs.file-max;查看系统范围内能打开的文件描述符数
-
-如果在系统启动的时候，希望设置，需要在文件：/etc/sysctl.conf中配置。
+    sysctl –a; 查询系统所有参数的配置
+    sysctl –w net.ipv4.tcp_max_syn_backlog=32000;设置同时可以连接的tcp套接字数
+    sysctl fs.file-max;查看系统范围内能打开的文件描述符数
+    如果在系统启动的时候，希望设置，需要在文件：/etc/sysctl.conf中配置。
 ###Linux /etc/fstab文件的说明
-这个文件是一个系统配置文件，主要记录了一些挂在文件的信息。当linux系统启动的时候，会读取这个文件，自动挂载。
-如果在linux终端下面执行 cat /etc/fstab ，会显示这个文件的格式，如下：
 
-&lt;file system&gt;  &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;
+    这个文件是一个系统配置文件，主要记录了一些挂在文件的信息。当linux系统启动的时候，会读取这个文件，自动挂载。
+    如果在linux终端下面执行 cat /etc/fstab ，会显示这个文件的格式，如下：
 
-一共有6个配置项，我们分别进行说明：
+    &lt;file system&gt;  &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;
 
-我们以挂载命令：mount -t nfs 192.168.40.211:/test/drbd/conf /test/etc_tms 进行说明。
+    一共有6个配置项，我们分别进行说明：
 
-&lt;file system&gt; : 需要挂在的设备文件，或者普通文件。比如 /dev/hda1 或者上面的192.168.40.211:/test/drbd/conf
+    我们以挂载命令：mount -t nfs 192.168.40.211:/test/drbd/conf /test/etc_tms 进行说明。
 
-&lt;mount point&gt;: 要选择的挂载点。
+    &lt;file system&gt; : 需要挂在的设备文件，或者普通文件。比如 /dev/hda1 或者上面的192.168.40.211:/test/drbd/conf
 
-&lt;type&gt;：文件系统的类型，linux支持的文件系统类型有：adfs、befs、cifs、ext3、 ext2、ext、iso9660、kafs、minix、msdos、vfat、umsdos、proc、reiserfs、swap、 squashfs、nfs、hpfs、ncpfs、ntfs、affs、ufs。
+    &lt;mount point&gt;: 要选择的挂载点。
 
-&lt;options&gt;：设置选项，各个选项用逗号隔开。如下：
+    &lt;type&gt;：文件系统的类型，linux支持的文件系统类型有：adfs、befs、cifs、ext3、 ext2、ext、iso9660、kafs、minix、msdos、vfat、umsdos、proc、reiserfs、swap、 squashfs、nfs、hpfs、ncpfs、ntfs、affs、ufs。
 
-auto: 系统自动挂载，fstab默认就是这个选项
+    &lt;options&gt;：设置选项，各个选项用逗号隔开。如下：
 
-defaults: rw, suid, dev, exec, auto, nouser, and async.
+    auto: 系统自动挂载，fstab默认就是这个选项
 
-noauto 开机不自动挂载
+    defaults: rw, suid, dev, exec, auto, nouser, and async.
 
-nouser 只有超级用户可以挂载
+    noauto 开机不自动挂载
 
-ro 按只读权限挂载
+    nouser 只有超级用户可以挂载
 
-rw 按可读可写权限挂载
+    ro 按只读权限挂载
 
-user 任何用户都可以挂载
+    rw 按可读可写权限挂载
 
-请注意光驱和软驱只有在装有介质时才可以进行挂载，因此它是noauto
+    user 任何用户都可以挂载
 
-&lt;dump&gt;：一般填0
+    请注意光驱和软驱只有在装有介质时才可以进行挂载，因此它是noauto
 
-&lt;pass&gt;：一般填0
-###在linux平台下，设置core dump文件生成的方法
+    &lt;dump&gt;：一般填0
 
-1) 在终端中输入ulimit -c 如果结果为0，说明当程序崩溃时，系统并不能生成core dump。
+    &lt;pass&gt;：一般填0
+    ###在linux平台下，设置core dump文件生成的方法
 
-2) 使用ulimit -c unlimited命令，开启core dump功能，并且不限制生成core dump文件的大小。如果需要限制，加数字限制即可。ulimit - c 1024
+    1) 在终端中输入ulimit -c 如果结果为0，说明当程序崩溃时，系统并不能生成core dump。
 
-3) 默认情况下，core dump生成的文件名为core，而且就在程序当前目录下。新的core会覆盖已存在的core。通过修改/proc/sys/kernel /core_uses_pid文件，可以将进程的pid作为作为扩展名，生成的core文件格式为core.xxx，其中xxx即为pid
+    2) 使用ulimit -c unlimited命令，开启core dump功能，并且不限制生成core dump文件的大小。如果需要限制，加数字限制即可。ulimit - c 1024
 
-4) 通过修改/proc/sys/kernel/core_pattern可以控制core文件保存位置和文件格式。例如：将所有的core文件生成到 /corefile目录下，文件名的格式为core-命令名-pid-时间戳. echo "/corefile/core-%e-%p-%t" > /proc/sys/kernel/core_pattern
+    3) 默认情况下，core dump生成的文件名为core，而且就在程序当前目录下。新的core会覆盖已存在的core。通过修改/proc/sys/kernel /core_uses_pid文件，可以将进程的pid作为作为扩展名，生成的core文件格式为core.xxx，其中xxx即为pid
+
+    4) 通过修改/proc/sys/kernel/core_pattern可以控制core文件保存位置和文件格式。例如：将所有的core文件生成到 /corefile目录下，文件名的格式为core-命令名-pid-时间戳. echo "/corefile/core-%e-%p-%t" > /proc/sys/kernel/core_pattern
 ###修改Linux下最大open files 数
-issue:
 
-How do I set the maximum number of files allowed to be open on a system 
+    issue:
+    How do I set the maximum number of files allowed to be open on a system 
+    Resolution: 
+    The current setting for maximum number of open files can be viewed with the command: 
+        ulimit -n 
 
-Resolution: 
+    This number indicates the maximum number of files normal users (i.e. non-root) can have open in a single session. Note that for the root user, ulimit -n will sometimes output 1024 even after following the procedure to increase the maximum number of open files. This won't effect root's ability to open large numbers of files, as only normal users are bound by this value. 
 
-The current setting for maximum number of open files can be viewed with the command: 
+    To increase the maximum number of open files beyond the default of 1024, two changes to the system may be necessary. In these examples, we will increase the maximum number of open files to the arbitrary value of 2048. All changes need to be made by the root user and users will need to log out and log back in before the changes will take effect. 
 
-    ulimit -n 
-
-This number indicates the maximum number of files normal users (i.e. non-root) can have open in a single session. Note that for the root user, ulimit -n will sometimes output 1024 even after following the procedure to increase the maximum number of open files. This won't effect root's ability to open large numbers of files, as only normal users are bound by this value. 
-
-To increase the maximum number of open files beyond the default of 1024, two changes to the system may be necessary. In these examples, we will increase the maximum number of open files to the arbitrary value of 2048. All changes need to be made by the root user and users will need to log out and log back in before the changes will take effect. 
-
-   1. Configure the system to accept the desired value for maximum number of open files Check the value in /proc/sys/fs/file-max to see if it is larger than the value needed for the maximum number of open files: 
+       1. Configure the system to accept the desired value for maximum number of open files Check the value in /proc/sys/fs/file-max to see if it is larger than the value needed for the maximum number of open files: 
 
       # cat /proc/sys/fs/file-max 
 
@@ -123,68 +119,64 @@ To increase the maximum number of open files beyond the default of 1024, two cha
       # echo 2048 > /proc/sys/fs/file-max 
 
       and edit /etc/sysctl.conf to include the line: 
-
       fs.file-max = 2048 
 
-   2. Set the value for maximum number of open files In the file /etc/security/limits.conf, below the commented line that reads 
+       2. Set the value for maximum number of open files In the file /etc/security/limits.conf, below the commented line that reads 
 
       #&lt;domain&gt;      &lt;type&gt;  &lt;item&gt;         &lt;value&gt; 
 
       add this line: 
-
-      \* - nofile 2048 
+      * - nofile 2048 
 
       This line sets the default number of open file descriptors for every user on the system to 2048. Note that the "nofile" item has two possible limit values under the <type> header: hard and soft. Both types of limits must be set before the change in the maximum number of open files will take effect. By using the "-" character, both hard and soft limits are set simultaneously. 
 
       The hard limit represents the maximum value a soft limit may have and the soft limit represents the limit being actively enforced on the system at that time. Hard limits can be lowered by normal users, but not raised and soft limits cannot be set higher than hard limits. Only root may raise hard limits. 
 
-When increasing file limit descriptors, you may want to simply double the value. For example, if you need to increase the default value of 1024, increase the value to 2048 first. If you need to increase it again, try 4096, etc. 
+    When increasing file limit descriptors, you may want to simply double the value. For example, if you need to increase the default value of 1024, increase the value to 2048 first. If you need to increase it again, try 4096, etc. 
 
 ###TCP 参数设置
-Maximum number of connections are impacted by certain limits on both client & server sides, albeit a little differently.
 
-On the client side: Increase the ephermal port range, and decrease the fin_timeout To find out the default values:
+    Maximum number of connections are impacted by certain limits on both client & server sides, albeit a little differently.
+    On the client side: Increase the ephermal port range, and decrease the fin_timeout To find out the default values:
 
-sysctl net.ipv4.ip\_local\_port\_range
+    sysctl net.ipv4.ip_local_port_range
+    sysctl net.ipv4.tcp_fin_timeout
 
-sysctl net.ipv4.tcp\_fin\_timeout
+    The ephermal port range defines the maximum number of outbound sockets a host can create from a particular I.P. address. The fin\_timeout defines the minimum time these sockets will stay in TIME_WAIT state (unusable after being used once). Usual system defaults are:
+    
+    •	net.ipv4.ip_local_port_range = 32768 61000
+    •	net.ipv4.tcp_fin_timeout = 60
 
-The ephermal port range defines the maximum number of outbound sockets a host can create from a particular I.P. address. The fin\_timeout defines the minimum time these sockets will stay in TIME_WAIT state (unusable after being used once). Usual system defaults are:
+    This basically means your system cannot guarantee more than (61000 - 32768) / 60 = 470 sockets at any given time. If you are not happy with that, you could begin with increasing the port\_range. Setting the range to 15000 61000 is pretty common these days. You could further increase the availability by decreasing the fin\_timeout. Suppose you do both, you should see over 1500 outbound connections, more readily.
+    Added this in my edit:
+    The above should not be interpreted as the factors impacting system capability for making outbound connections / second. But rather these factors affect system's ability to handle concurrent connections in a sustainable manner for large periods of activity.
+    Default Sysctl values on a typical linux box for tcp\_tw\_recycle & tcp\_tw\_reuse would be:
 
-•	net.ipv4.ip\_local\_port\_range = 32768 61000
+    net.ipv4.tcp_tw_recycle = 0
+    net.ipv4.tcp_tw_reuse = 0
 
-•	net.ipv4.tcp\_fin\_timeout = 60
+    These do not allow a connection in wait state after use, and force them to last the complete time\_wait cycle. I recommend setting them to:
 
-This basically means your system cannot guarantee more than (61000 - 32768) / 60 = 470 sockets at any given time. If you are not happy with that, you could begin with increasing the port\_range. Setting the range to 15000 61000 is pretty common these days. You could further increase the availability by decreasing the fin\_timeout. Suppose you do both, you should see over 1500 outbound connections, more readily.
-Added this in my edit:
-The above should not be interpreted as the factors impacting system capability for making outbound connections / second. But rather these factors affect system's ability to handle concurrent connections in a sustainable manner for large periods of activity.
-Default Sysctl values on a typical linux box for tcp\_tw\_recycle & tcp\_tw\_reuse would be:
+    net.ipv4.tcp_tw_recycle = 1
+    net.ipv4.tcp_tw_reuse = 1 
 
-net.ipv4.tcp\_tw\_recycle = 0
-
-net.ipv4.tcp\_tw\_reuse = 0
-
-These do not allow a connection in wait state after use, and force them to last the complete time\_wait cycle. I recommend setting them to:
-
-net.ipv4.tcp\_tw\_recycle = 1
-
-net.ipv4.tcp\_tw\_reuse = 1 
-
-This allows fast cycling of sockets in time\_wait state and re-using them. But before you do this change make sure that this does not conflict with the protocols that you would use for the application that needs these sockets.
-On the Server Side: The net.core.somaxconn value has an important role. It limits the maximum number of requests queued to a listen socket. If you are sure of your server application's capability, bump it up from default 128 to something like 128 to 1024. Now you can take advantage of this increase by modifying the listen backlog variable in your application's listen call, to an equal or higher integer.
-txqueuelen parameter of your ethernet cards also have a role to play. Default values are 1000, so bump them up to 5000 or even more if your system can handle it.
-Similarly bump up the values for net.core.netdev_max_backlog and net.ipv4.tcp_max_syn_backlog. Their default values are 1000 and 1024 respectively.
-Now remember to start both your client and server side applications by increasing the FD ulimts, in the shell.
+    This allows fast cycling of sockets in time\_wait state and re-using them. But before you do this change make sure that this does not conflict with the protocols that you would use for the application that needs these sockets.
+    On the Server Side: The net.core.somaxconn value has an important role. It limits the maximum number of requests queued to a listen socket. If you are sure of your server application's capability, bump it up from default 128 to something like 128 to 1024. Now you can take advantage of this increase by modifying the listen backlog variable in your application's listen call, to an equal or higher integer.
+    txqueuelen parameter of your ethernet cards also have a role to play. Default values are 1000, so bump them up to 5000 or even more if your system can handle it.
+    Similarly bump up the values for net.core.netdev_max_backlog and net.ipv4.tcp_max_syn_backlog. Their default values are 1000 and 1024 respectively.
+    Now remember to start both your client and server side applications by increasing the FD ulimts, in the shell.
 
 ###设置select 函数FD_SETSIZE
-问：I want to increase FD_SETSIZE macro value for my system. Is there any way to increase FD_SETSIZE so select will not fail
 
-答：Per the standards, there is no way to increase FD\_SETSIZE. Some programs and libraries (libevent comes to mind) try to work around this by allocating additional space for the f\d_set object and passing values larger than FD_SETSIZE to the FD_* macros, but this is a very bad idea since robust implementations may perform bounds\-checking on the argument and abort if it's out of range.
+    问：I want to increase FD_SETSIZE macro value for my system. Is there any way to increase FD_SETSIZE so select will not fail
 
-I have an alternate solution that should always work (even though it's not required to by the standards). Instead of a single fd\_set object, allocate an array of them large enough to hold the max fd you'll need, then use FD\_SET(fd%FD_SETSIZE, &fds\_array[fd/FD\_SETSIZE]) etc. to access the set.
+    答：Per the standards, there is no way to increase FD_SETSIZE. Some programs and libraries (libevent comes to mind) try to work around this by allocating additional space for the fd_set object and passing values larger than FD_SETSIZE to the FD_* macros, but this is a very bad idea since robust implementations may perform bounds-checking on the argument and abort if it's out of range.
+
+    I have an alternate solution that should always work (even though it's not required to by the standards). Instead of a single fd_set object, allocate an array of them large enough to hold the max fd you'll need, then use FD_SET(fd%FD_SETSIZE, &fds_array[fd/FD_SETSIZE]) etc. to access the set.
 
 ###linux-shell-||,&&{},(),reg-命令执行顺序
-&&
+
+    &&
 
     格式：命令1 && 命令2
     作用：& &左边的命令（命令1）返回真(即返回0，成功被执行）后，& &右边的命令（命令2）才能够被执行。
@@ -193,7 +185,7 @@ I have an alternate solution that should always work (even though it's not requi
     说明：/apps/bin目录将会被移到/apps/dev/bin目录下，如果它没有被成功执行，就不会删除/apps/bin目录。
 
 
-||
+    ||
 
     格式：命令1 || 命令2
     作用：如果| |左边的命令（命令1）未执行成功，那么就执行| |右边的命令（命令2）
@@ -201,7 +193,7 @@ I have an alternate solution that should always work (even though it's not requi
     $ comet month_end.txt || exit
 
 
-用（）和{ }将命令结合在一起
+    用（）和{ }将命令结合在一起
 
     多个命令一起执行方法：
     1）当前shell中执行一组命令，可以用命令分隔符隔开每一个命令，并把所有的命令用圆括号（）括起来。
@@ -214,7 +206,7 @@ I have an alternate solution that should always work (even though it's not requi
     注意：只有在{ }中所有命令的输出作为一个整体被重定向时，其中的命令才被放到子shell中执行，否则在当前s h e l l执行
 
 
-综合
+    综合
 
     这些命令都是综合来用的。
     例：
@@ -233,22 +225,22 @@ I have an alternate solution that should always work (even though it's not requi
 (1) /sys/devices/system/cpu/cpu0/cache/
 
     This directory has a subdirectory for each level of cache. Each of those directories contains the following files:
-    coherency\_line\_size
+    coherency_line_size
     level
-    number\_of\_sets
-    physical\_line\_partition
-    shared\_cpu\_list
-    shared\_cpu\_map
+    number_of_sets
+    physical_line_partition
+    shared_cpu_list
+    shared_cpu_map
     size
     type
-    ways\_of\_associativity
-    coherency\_line\_size记录的就是cpu cache line size。
+    ways_of_associativity
+    coherency_line_size记录的就是cpu cache line size。
 
-(2) sysconf (\_SC_LEVEL1\_DCACHE\_LINESIZE)
+(2) sysconf (_SC_LEVEL1_DCACHE_LINESIZE)
 
 (3) You can also get it from the command line using getconf:
 
-     $ getconf LEVEL1\_DCACHE\_LINESIZE
+     $ getconf LEVEL1_DCACHE_LINESIZE
 
 (4) intel cpu ，用cpuid指令，可以参考nginx源码。
 
@@ -264,7 +256,7 @@ I have an alternate solution that should always work (even though it's not requi
 
     Shortcut                       Result
     cd              Changes the working directory to your home directory.
-    cd  \-           Changes the working directory to the previous working directory.
+    cd  -           Changes the working directory to the previous working directory.
     cd  ~username  Changes the working directory to the home directory of username. For example, cd ~bob changes the directory
     to the home directory of user bob.
 
@@ -508,7 +500,7 @@ I have an alternate solution that should always work (even though it's not requi
 
     $ svn export http://svn.example.com/svn/repos1 # Exports latest revision…
     $ svn export http://svn.example.com/svn/repos1 -r 1729
-    \# Exports revision r1729。部分SVN子命令相关内容讲解完毕。
+    # Exports revision r1729。部分SVN子命令相关内容讲解完毕。
 
 2.22.10	svn mkdir urlpath/&lt;dir name&gt; -m “comments”
 
@@ -554,33 +546,20 @@ I have an alternate solution that should always work (even though it's not requi
 
     gnuplot是一个画图工具，可以画一些曲线图。具有linux、windows版本。
     配置文件示例：
-    \# Gnuplot script file for plotting data in file "force.dat"
+    # Gnuplot script file for plotting data in file "force.dat"
     set terminal gif
-
     set terminal gif size 16000,800
-
     set autoscale                        # scale axes automatically
-
     unset log                              # remove any log-scaling
-
     unset label                            # remove any previous labels
-
     unset key
-
     set xtic 1000                          # set xtics automatically
-
     set ytic 3                          # set ytics automatically
-
     set title "RTT"
-
-    \#set key 1,1
-
+    #set key 1,1
     set xr [3678970:3698970]
-
     set yr [0:200]
-
     set grid "layerdefault"
-
     plot 'dts_09261600.txt' using 7:3 title "Winsize" with linespoints lc rgb "green",	\
     		 'dts_09261600.txt' using 7:4 title "RTTMEAN" with linespoints lc rgb "red",	\
          'dts_09261600.txt' using 7:5 title "rtt" with linespoints lc rgb "blue"
@@ -589,17 +568,17 @@ I have an alternate solution that should always work (even though it's not requi
 
 2.31.1	to assign Multiple IP addresses to eth0
 
-    \#!/usr/bin/env bash 
-    \# Assign the initial 'physical' address of the NIC
+    #!/usr/bin/env bash 
+    # Assign the initial 'physical' address of the NIC
     ifconfig eth1 192.168.1.1 netmask 255.255.255.0 &
     ifconfig eth1 up
-    \# assign 192.168.1.11 to eth1:1 
+    # assign 192.168.1.11 to eth1:1 
     ifconfig eth1:1 192.168.1.11 netmask 255.255.255.0 & 
     ifconfig eth1:1 up 
-    \# assign 192.168.1.12 to eth1:2 
+    # assign 192.168.1.12 to eth1:2 
     ifconfig eth1:2 192.168.1.12 netmask 255.255.255.0 & 
     ifconfig eth1:2 up 
-    \# assign 192.168.1.13 to eth1:3 
+    # assign 192.168.1.13 to eth1:3 
     ifconfig eth1:3 192.168.1.13 netmask 255.255.255.0 & 
     ifconfig eth1:3 up
 
