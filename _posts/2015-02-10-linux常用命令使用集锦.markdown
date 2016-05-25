@@ -222,28 +222,46 @@ I have an alternate solution that should always work (even though it's not requi
     如果该脚本执行失败了，先给自己发个邮件，然后再退出.
 ###ubuntu进入单用户模式
 (1) 开机重启，压<ESC>键，进入下面界面
+
 (2) 通过键盘上下光标键，选择第二项(recovery mode)，然后按<e>键，记住不是回车。
+
 (3) 通过键盘上下光标键，选择第二项(kernel /boot/vmlinuz-2.6.24-24-server)，然后按<e>键，记住不是回车。
+
 (4) 修改 ro single 为 rw single init=/bin/bash ，然后按'回车键' , 按 'b' 键，重新引导。
+
 ###获取cpu cache line size
 (1) /sys/devices/system/cpu/cpu0/cache/
+
 This directory has a subdirectory for each level of cache. Each of those directories contains the following files:
+
 coherency\_line\_size
+
 level
+
 number\_of\_sets
+
 physical\_line\_partition
+
 shared\_cpu\_list
+
 shared\_cpu\_map
+
 size
+
 type
+
 ways\_of\_associativity
+
 coherency\_line\_size记录的就是cpu cache line size。
 
 (2) sysconf (\_SC_LEVEL1\_DCACHE\_LINESIZE)
+
 (3) You can also get it from the command line using getconf:
+
      $ getconf LEVEL1\_DCACHE\_LINESIZE
 
 (4) intel cpu ，用cpuid指令，可以参考nginx源码。
+
 ##基本工具的使用
 **2.1	利用鼠标，在linux终端进行文本选择，拷贝的技巧**
 
@@ -254,15 +272,18 @@ pasted at the cursor location
 
 **2.2	Shell操作，cd命令的技巧**
 
-Shortcut                       Result
-cd              Changes the working directory to your home directory.
-cd  \-           Changes the working directory to the previous working directory.
-cd  ~username  Changes the working directory to the home directory of username. For example, cd ~bob changes the directory tothe home directory of user bob.
+    Shortcut                       Result
+    cd              Changes the working directory to your home directory.
+    cd  \-           Changes the working directory to the previous working directory.
+    cd  ~username  Changes the working directory to the home directory of username. For example, cd ~bob changes the directory
+    to the home directory of user bob.
 
 **2.3	awk**
 
 2.3.1	printf，格式化输出，类似c语言的printf的使用
+
 2.3.2	strtonum 将字符串转换为数字
+
      将16进制字符串，打印成十进制字符串转换为10进制整数:
      str16 = “aabb0022”;
      strtonum(“0x”str16);
@@ -282,9 +303,9 @@ cd  ~username  Changes the working directory to the home directory of username. 
 
 **2.6	qemu-kvm shell虚拟机管理工具**
 
-virsh；提供了好多命令，virsh –help 可以查看具体的使用方法
-虚拟机的镜像文件路径：/var/lib/libvirt/images
-虚拟机的配置文件路径：/etc/libvirt/qemu
+    virsh；提供了好多命令，virsh –help 可以查看具体的使用方法
+    虚拟机的镜像文件路径：/var/lib/libvirt/images
+    虚拟机的配置文件路径：/etc/libvirt/qemu
 
 **2.7	shell 函数**
 
