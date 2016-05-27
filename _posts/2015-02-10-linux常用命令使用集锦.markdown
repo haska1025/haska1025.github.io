@@ -28,7 +28,7 @@ categories: linux
 ##系统配置
 ###查看ubuntu的版本号
 
-    cat /etc/issue
+cat /etc/issue
 
 ###linux下修改时间为上海时间[东8区]
 
