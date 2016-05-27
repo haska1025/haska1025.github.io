@@ -91,117 +91,127 @@ cat /etc/issue
     <pass>：一般填0
     ###在linux平台下，设置core dump文件生成的方法
 
-    1) 在终端中输入ulimit -c 如果结果为0，说明当程序崩溃时，系统并不能生成core dump。
+1) 在终端中输入ulimit -c 如果结果为0，说明当程序崩溃时，系统并不能生成core dump。
 
-    2) 使用ulimit -c unlimited命令，开启core dump功能，并且不限制生成core dump文件的大小。
-       如果需要限制，加数字限制即可。ulimit - c 1024
+2) 使用ulimit -c unlimited命令，开启core dump功能，并且不限制生成core dump文件的大小。
 
-    3) 默认情况下，core dump生成的文件名为core，而且就在程序当前目录下。新的core会覆盖已存在的core。
-       通过修改/proc/sys/kernel /core_uses_pid文件，可以将进程的pid作为作为扩展名，
-       生成的core文件格式为core.xxx，其中xxx即为pid
+如果需要限制，加数字限制即可。ulimit - c 1024
 
-    4) 通过修改/proc/sys/kernel/core_pattern可以控制core文件保存位置和文件格式。例如：将所有的core文件生成到    /corefile目录下，文件名的格式为core-命令名-pid-时间戳. 
+3) 默认情况下，core dump生成的文件名为core，而且就在程序当前目录下。新的core会覆盖已存在的core。
+
+通过修改/proc/sys/kernel /core_uses_pid文件，可以将进程的pid作为作为扩展名，
+   
+生成的core文件格式为core.xxx，其中xxx即为pid
+
+4) 通过修改/proc/sys/kernel/core_pattern可以控制core文件保存位置和文件格式。例如：
+将所有的core文件生成到/corefile目录下，文件名的格式为core-命令名-pid-时间戳
+
     echo "/corefile/core-%e-%p-%t" > /proc/sys/kernel/core_pattern
 ###修改Linux下最大open files 数
 
-    issue:
+issue:
+
     How do I set the maximum number of files allowed to be open on a system 
-    Resolution: 
+
+Resolution: 
+
     The current setting for maximum number of open files can be viewed with the command: 
         ulimit -n 
 
-    This number indicates the maximum number of files normal users (i.e. non-root) can have open in a single session.
-    Note that for the root user, ulimit -n will sometimes output 1024 even after following the procedure to increase the maximum number of open files. 
-    This won't effect root's ability to open large numbers of files, as only normal users are bound by this value. 
+ This number indicates the maximum number of files normal users (i.e. non-root) can have open in a single session.
+Note that for the root user, ulimit -n will sometimes output 1024 even after following the procedure to increase the maximum number of open files. 
+This won't effect root's ability to open large numbers of files, as only normal users are bound by this value. 
 
-    To increase the maximum number of open files beyond the default of 1024, two changes to the system may be necessary. 
-    In these examples, we will increase the maximum number of open files to the arbitrary value of 2048. 
-    All changes need to be made by the root user and users will need to log out and log back in before the changes will take effect. 
+To increase the maximum number of open files beyond the default of 1024, two changes to the system may be necessary. 
+In these examples, we will increase the maximum number of open files to the arbitrary value of 2048. 
+All changes need to be made by the root user and users will need to log out and log back in before the changes will take effect. 
 
-       1. Configure the system to accept the desired value for maximum number of open files Check the value in /proc/sys/fs/file-max to see if it is larger than the value needed for the maximum number of open files: 
+1. Configure the system to accept the desired value for maximum number of open files Check the value in /proc/sys/fs/file-max to see if it is larger than the value needed for the maximum number of open files: 
 
       # cat /proc/sys/fs/file-max 
 
-      If the value isn't large enough, echo an appropriate number into the variable and add the change to /etc/sysctl.conf to make it persistent across reboots. If the number is already larger than the value you wish to use, skip to step 2. 
+If the value isn't large enough, echo an appropriate number into the variable and add the change to /etc/sysctl.conf to make it persistent across reboots. If the number is already larger than the value you wish to use, skip to step 2. 
 
       # echo 2048 > /proc/sys/fs/file-max 
 
-      and edit /etc/sysctl.conf to include the line: 
+and edit /etc/sysctl.conf to include the line:
       fs.file-max = 2048 
 
-       2. Set the value for maximum number of open files In the file /etc/security/limits.conf, below the commented line that reads 
+2. Set the value for maximum number of open files In the file /etc/security/limits.conf, below the commented line that reads 
 
       #<domain>      <type&>  <item>         <value> 
 
       add this line: 
       * - nofile 2048 
 
-      This line sets the default number of open file descriptors for every user on the system to 2048. 
-      Note that the "nofile" item has two possible limit values under the <type> header: hard and soft. 
-      Both types of limits must be set before the change in the maximum number of open files will take effect. 
-      By using the "-" character, both hard and soft limits are set simultaneously. 
+This line sets the default number of open file descriptors for every user on the system to 2048. 
+Note that the "nofile" item has two possible limit values under the <type> header: hard and soft. 
+oth types of limits must be set before the change in the maximum number of open files will take effect. 
+By using the "-" character, both hard and soft limits are set simultaneously. 
 
-      The hard limit represents the maximum value a soft limit may have and the soft limit represents the limit being actively enforced on the system at that time. Hard limits can be lowered by normal users, 
-      but not raised and soft limits cannot be set higher than hard limits. Only root may raise hard limits. 
+The hard limit represents the maximum value a soft limit may have and the soft limit represents the limit being actively enforced on the system at that time. Hard limits can be lowered by normal users, 
+but not raised and soft limits cannot be set higher than hard limits. Only root may raise hard limits. 
 
-    When increasing file limit descriptors, you may want to simply double the value. For example, 
-    if you need to increase the default value of 1024, increase the value to 2048 first. 
-    If you need to increase it again, try 4096, etc. 
+When increasing file limit descriptors, you may want to simply double the value. For example, 
+if you need to increase the default value of 1024, increase the value to 2048 first. 
+If you need to increase it again, try 4096, etc. 
 
 ###TCP 参数设置
 
-    Maximum number of connections are impacted by certain limits on both client & server sides, 
-    albeit a little differently.
-    On the client side: Increase the ephermal port range, 
-    and decrease the fin_timeout To find out the default values:
+Maximum number of connections are impacted by certain limits on both client & server sides, 
+albeit a little differently.
+On the client side: Increase the ephermal port range, 
+and decrease the fin_timeout To find out the default values:
 
     sysctl net.ipv4.ip_local_port_range
     sysctl net.ipv4.tcp_fin_timeout
 
-    The ephermal port range defines the maximum number of outbound sockets a host can create from a particular I.P. address. The fin_timeout defines the minimum time these sockets will stay in TIME_WAIT state (unusable after being used once). Usual system defaults are:
+The ephermal port range defines the maximum number of outbound sockets a host can create from a particular I.P. address. The fin_timeout defines the minimum time these sockets will stay in TIME_WAIT state (unusable after being used once). Usual system defaults are:
     
-    •	net.ipv4.ip_local_port_range = 32768 61000
-    •	net.ipv4.tcp_fin_timeout = 60
+    net.ipv4.ip_local_port_range = 32768 61000
+    
+    net.ipv4.tcp_fin_timeout = 60
 
-    This basically means your system cannot guarantee more than (61000 - 32768) / 60 = 470 sockets at any given time. 
-    If you are not happy with that, you could begin with increasing the port_range. 
-    Setting the range to 15000 61000 is pretty common these days. 
-    You could further increase the availability by decreasing the fin_timeout. 
-    Suppose you do both, you should see over 1500 outbound connections, more readily.
-    Added this in my edit:
-    The above should not be interpreted as the factors impacting system capability for making outbound connections / second. But rather these factors affect system's ability to handle concurrent connections in a sustainable manner for large periods of activity.
-    Default Sysctl values on a typical linux box for tcp_tw_recycle & tcp_tw_reuse would be:
+This basically means your system cannot guarantee more than (61000 - 32768) / 60 = 470 sockets at any given time. 
+If you are not happy with that, you could begin with increasing the port_range. 
+Setting the range to 15000 61000 is pretty common these days. 
+You could further increase the availability by decreasing the fin_timeout. 
+Suppose you do both, you should see over 1500 outbound connections, more readily.
+Added this in my edit:
+The above should not be interpreted as the factors impacting system capability for making outbound connections / second. But rather these factors affect system's ability to handle concurrent connections in a sustainable manner for large periods of activity.
+
+Default Sysctl values on a typical linux box for tcp_tw_recycle & tcp_tw_reuse would be:
 
     net.ipv4.tcp_tw_recycle = 0
     net.ipv4.tcp_tw_reuse = 0
 
-    These do not allow a connection in wait state after use, and force them to last the complete time\_wait cycle. 
-    I recommend setting them to:
+These do not allow a connection in wait state after use, and force them to last the complete time\_wait cycle. 
+I recommend setting them to:
 
     net.ipv4.tcp_tw_recycle = 1
     net.ipv4.tcp_tw_reuse = 1 
 
-    This allows fast cycling of sockets in time_wait state and re-using them. But before you do this change make sure that this does not conflict with the protocols that you would use for the application that needs these sockets.
-    On the Server Side: The net.core.somaxconn value has an important role. 
-    It limits the maximum number of requests queued to a listen socket. 
-    If you are sure of your server application's capability, bump it up from default 128 to something like 128 to 1024.
-    Now you can take advantage of this increase by modifying the listen backlog variable in your application's listen call, to an equal or higher integer.
-    txqueuelen parameter of your ethernet cards also have a role to play.
-    Default values are 1000, so bump them up to 5000 or even more if your system can handle it.
-    Similarly bump up the values for net.core.netdev_max_backlog and net.ipv4.tcp_max_syn_backlog.
-    Their default values are 1000 and 1024 respectively.
-    Now remember to start both your client and server side applications by increasing the FD ulimts, in the shell.
+This allows fast cycling of sockets in time_wait state and re-using them. But before you do this change make sure that this does not conflict with the protocols that you would use for the application that needs these sockets.
+On the Server Side: The net.core.somaxconn value has an important role. 
+It limits the maximum number of requests queued to a listen socket. 
+If you are sure of your server application's capability, bump it up from default 128 to something like 128 to 1024.
+Now you can take advantage of this increase by modifying the listen backlog variable in your application's listen call, to an equal or higher integer.
+txqueuelen parameter of your ethernet cards also have a role to play.
+Default values are 1000, so bump them up to 5000 or even more if your system can handle it.
+Similarly bump up the values for net.core.netdev_max_backlog and net.ipv4.tcp_max_syn_backlog.
+Their default values are 1000 and 1024 respectively.
+Now remember to start both your client and server side applications by increasing the FD ulimts, in the shell.
 
 ###设置select 函数FD_SETSIZE
 
-    问：I want to increase FD_SETSIZE macro value for my system. Is there any way to increase FD_SETSIZE so select will not fail
+问：I want to increase FD_SETSIZE macro value for my system. Is there any way to increase FD_SETSIZE so select will not fail
 
-    答：Per the standards, there is no way to increase FD_SETSIZE. 
-    Some programs and libraries (libevent comes to mind) try to work around this by allocating additional space for the fd_set object and passing values larger than FD_SETSIZE to the FD_* macros, but this is a very bad idea since robust implementations may perform bounds-checking on the argument and abort if it's out of range.
+答：Per the standards, there is no way to increase FD_SETSIZE. 
+Some programs and libraries (libevent comes to mind) try to work around this by allocating additional space for the fd_set object and passing values larger than FD_SETSIZE to the FD_* macros, but this is a very bad idea since robust implementations may perform bounds-checking on the argument and abort if it's out of range.
 
-    I have an alternate solution that should always work (even though it's not required to by the standards). 
-    Instead of a single fd_set object, allocate an array of them large enough to hold the max fd you'll need,
-    then use FD_SET(fd%FD_SETSIZE, &fds_array[fd/FD_SETSIZE]) etc. to access the set.
+I have an alternate solution that should always work (even though it's not required to by the standards). 
+Instead of a single fd_set object, allocate an array of them large enough to hold the max fd you'll need,
+then use FD_SET(fd%FD_SETSIZE, &fds_array[fd/FD_SETSIZE]) etc. to access the set.
 
 ###linux-shell-||,&&{},(),reg-命令执行顺序
 
@@ -276,10 +286,10 @@ cat /etc/issue
 ##基本工具的使用
 **2.1	利用鼠标，在linux终端进行文本选择，拷贝的技巧**
 
-       If you highlight some text by holding down the left mouse button and
-    dragging the mouse over it (or double-clicking a word), it is copied into a buffer
-    maintained by X. Pressing the middle mouse button will cause the text to be
-    pasted at the cursor location
+   If you highlight some text by holding down the left mouse button and
+dragging the mouse over it (or double-clicking a word), it is copied into a buffer
+maintained by X. Pressing the middle mouse button will cause the text to be
+pasted at the cursor location
 
 **2.2	Shell操作，cd命令的技巧**
 
@@ -367,7 +377,7 @@ cat /etc/issue
 
     root@VM-Ubuntu203001:/home/dts-pc2.0-rudp/src# ps  aux |grep tang_dts
     root     19224  0.5  3.8 951820 39936 ?        Ssl  Nov06  45:42 /tang/sbin/tang_dts start -c/var/run/tang/dts.conf
-        root     22028  0.0  0.0   1808   540 pts/4    R+   17:12   0:00 grep tang_dts
+    root     22028  0.0  0.0   1808   540 pts/4    R+   17:12   0:00 grep tang_dts
 
     root@VM-Ubuntu203001:/home/dts-pc2.0-rudp/src# pidof -x tang_dts
     19224
@@ -439,7 +449,8 @@ cat /etc/issue
     Linux中，与IPC相关的命令包括：ipcs、ipcrm（释放IPC）、
     IPCS命令是Linux下显示进程间通信设施状态的工具。
     我们知道，系统进行进程间通信（IPC）的时候，
-    可用的方式包括信号量、共享内存、消息队列、管道、信号（signal）、套接字等形式[2]。使用IPCS可以查看共享内存、信号量、消息队列的状态。
+    可用的方式包括信号量、共享内存、消息队列、管道、信号（signal）、套接字等形式[2]。
+    使用IPCS可以查看共享内存、信号量、消息队列的状态。
     ipcs
     ipcrm
 
@@ -472,25 +483,25 @@ cat /etc/issue
         -C, --cache              display routing cache instead of FIB
 2.21.1	The Art of Interpreting Netstat
 
-    Reading Netstat's five-column output is something of an art. First, look at the Local Address column.
-    The results that appear there will typically be 0.0.0.0 or 127.0.0.1, or will show the IP address of one of your physical network-interface connections (e.g., NIC, modem). 
-    If the application is bound to 0.0.0.0, the program is willing to accept connections coming from any interface.
-    If the application is bound for a specific IP address, the program will accept connections to that port only from that local interface.
-    The 127.0.0.1 address is the local loopback address, 
-    which means that the applications will accept connections originating from only the local computer. 
-    The 127.0.0.1 address is common for interprocess remote procedure call (RPC) communications and PDA connections. 
-    You can typically count on the safety of any 127.0.0.1 connections because malicious software (malware) would never open just a local connection to itself. 
-    Therefore, concentrate on the remaining connections.
-    Next, most people look at the state. 
-    Any session in Listening mode shouldn't have a remote IP address attached with it; 
-    however, any session in Established mode (or other active state) should. Typically, the remote IP address will 127.0.0.1 or the address of some external computer. 
-    Again, you can ignore the 127.0.0.1 connections, but you should analyze active sessions to remote IP addresses. 
-    Are there any you didn’t expect? If so, tie the session to its process identifier (PID) and research the program. 
-    Take note of the remote destination port number to see if you can tie it to a well-known protocol (e.g., HTTP).
-    When you look for malware, the ports to concentrate on are unexplained Established connections to remote Internet addresses, unexplained TCP ports in Listening mode, and unexplained UDP ports. 
-    Many UDP ports have a twin entry in the TCP Listening mode because the application opening the port can use UDP or TCP, depending on the situation. 
-    If a UDP port doesn't have a matching TCP entry, research it. 
-    If a UDP port does have a matching TCP entry, you can concentrate on the TCP port for your research.
+Reading Netstat's five-column output is something of an art. First, look at the Local Address column.
+The results that appear there will typically be 0.0.0.0 or 127.0.0.1, or will show the IP address of one of your physical network-interface connections (e.g., NIC, modem). 
+If the application is bound to 0.0.0.0, the program is willing to accept connections coming from any interface.
+If the application is bound for a specific IP address, the program will accept connections to that port only from that local interface.
+The 127.0.0.1 address is the local loopback address, 
+which means that the applications will accept connections originating from only the local computer. 
+The 127.0.0.1 address is common for interprocess remote procedure call (RPC) communications and PDA connections. 
+You can typically count on the safety of any 127.0.0.1 connections because malicious software (malware) would never open just a local connection to itself. 
+Therefore, concentrate on the remaining connections.
+Next, most people look at the state. 
+Any session in Listening mode shouldn't have a remote IP address attached with it; 
+however, any session in Established mode (or other active state) should. Typically, the remote IP address will 127.0.0.1 or the address of some external computer. 
+Again, you can ignore the 127.0.0.1 connections, but you should analyze active sessions to remote IP addresses. 
+Are there any you didn’t expect? If so, tie the session to its process identifier (PID) and research the program. 
+Take note of the remote destination port number to see if you can tie it to a well-known protocol (e.g., HTTP).
+When you look for malware, the ports to concentrate on are unexplained Established connections to remote Internet addresses, unexplained TCP ports in Listening mode, and unexplained UDP ports. 
+Many UDP ports have a twin entry in the TCP Listening mode because the application opening the port can use UDP or TCP, depending on the situation. 
+If a UDP port doesn't have a matching TCP entry, research it. 
+If a UDP port does have a matching TCP entry, you can concentrate on the TCP port for your research.
 
 2.21.2	netstat –s查看网络统计
 
@@ -511,40 +522,40 @@ cat /etc/issue
 
 2.22.1	svn log
 
-    查看提交记录
+查看提交记录
 
 2.22.2	svn diff
 
-    比较工作拷贝和版本库
+比较工作拷贝和版本库
 
 2.22.3	svn diff -r 3 rules.txt
 
-    比较工作拷贝和revision 3版本
+比较工作拷贝和revision 3版本
 
 2.22.4	svn diff -r 2:3 rules.txt
 
-    比较revision 2和revision 3版本
+比较revision 2和revision 3版本
 
 2.22.5	svn diff -c 3 rules.txt
 
-    与前一个修订版本比较更方便的办法是使用--change (-c)
+与前一个修订版本比较更方便的办法是使用--change (-c)
 
 2.22.6	svn cat -r 2 rules.txt
 
-    如果你只是希望检查一个过去的版本而不希望察看它们的区别，使用svn cat
+如果你只是希望检查一个过去的版本而不希望察看它们的区别，使用svn cat
 
 2.22.7	svn checkout -r 1729 
 
-    Checks out a new working copy at r1729…
+Checks out a new working copy at r1729…
 
 2.22.8	svn update -r 1729
 
-    Updates an existing working copy to r1729
+Updates an existing working copy to r1729
 
 2.22.9	svn export
 
-    最后，如果你构建了一个版本，并且希望从Subversion打包文件，但是你不希望有讨厌的.svn目录，这时你可以导出版本
-    库的一部分文件而没有.svn目录。就像svn update和svn checkout，你也可以传递--revision选项给svn export：
+最后，如果你构建了一个版本，并且希望从Subversion打包文件，但是你不希望有讨厌的.svn目录，这时你可以导出版本
+库的一部分文件而没有.svn目录。就像svn update和svn checkout，你也可以传递--revision选项给svn export：
 
     $ svn export http://svn.example.com/svn/repos1 # Exports latest revision…
     $ svn export http://svn.example.com/svn/repos1 -r 1729
