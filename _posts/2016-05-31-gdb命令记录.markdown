@@ -5,12 +5,12 @@ categories: gdb
 ---
 【声明】声明本文部分材料来源网络，如有疑问请联系。
 
-###1. 调试可执行程序加载的共享库的方法是
+### 1. 调试可执行程序加载的共享库的方法是
 
     $gdb –q <execute filename>
     $r <cmd line para>
     
-###2.gdb 调试core dump文件
+### 2.gdb 调试core dump文件
 
 启动gdb
     $gdb <可执行文件名的全路径> <core file name>
