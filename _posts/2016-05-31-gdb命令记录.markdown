@@ -1,7 +1,6 @@
 ---
 layout: post
 title:  "gdb命令记录"
-date:   2016-05-31 9:22:53
 categories: gdb
 ---
 【声明】声明本文部分材料来源网络，如有疑问请联系。
