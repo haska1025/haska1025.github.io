@@ -1,3 +1,11 @@
+---
+layout: post
+title:  "GDB命令记录"
+date:   2016-05-31 4:51:53
+categories: gdb
+---
+【声明】声明本文部分材料来源网络，如有疑问请联系。
+
 ###1. 调试可执行程序加载的共享库的方法是
 
     $gdb –q <execute filename>
