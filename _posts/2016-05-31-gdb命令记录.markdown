@@ -46,7 +46,7 @@ categories: gdb
 
 查看局部变量
 
-###11.	whatis <变量名称>
+### 11.	whatis <变量名称>
 
 查看某个变量的类型
 
