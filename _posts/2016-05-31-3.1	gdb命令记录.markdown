@@ -1,0 +1,67 @@
+###1. 调试可执行程序加载的共享库的方法是###
+    $gdb –q <execute filename>
+    $r <cmd line para>
+###2.gdb 调试core dump文件###
+启动gdb
+    $gdb <可执行文件名的全路径> <core file name>
+
+
+###3. gcc开了-O优化选项###
+
+所有static函数、变量不会出现在符号表中
+
+###4. gcc –v选项###
+
+打印gcc执行过程的详细信息
+
+###5.	(gdb) help info proc ###
+###6.	info line <文件名+行号>###
+打印指令的起始地址、结束地址
+###7.	info line <函数名>###
+打印指令的起始地址、结束地址
+###8.	disas[semble] 起始地址 结束地址###
+反汇编一段地址。
+###9.	info variables <模式>###
+查询所有static变量和全局变量
+###10. info local###
+查看局部变量
+
+###11.	whatis <变量名称>###
+查看某个变量的类型
+###12.	info threads###
+查看所有LWP线程
+###13	thread apply all bt###
+打印所有线程堆栈
+###14	打印数组的脚本###
+    1：
+     thought the original requirement was to print out an array.. personally, I find the following useful:
+    set $var=0
+    while ($var < 1000)
+    if array[$var] != 0
+    printf "%d %d\n", $var, array[$var]
+    end
+    set $var=$var+1
+    end
+
+    2：
+    print array[startindex]@num
+    will print the 'num' first elements of 'array[startindex]'. Nice too, but it can lead to a lot of data being displayed.
+###15.	set pagination off###
+显示调试结果的时候，取消“press <return> continue, press <q> quit”的提示
+###16.	保存调试信息到文件###
+    set logging on
+    set logging file gdb.txt
+    set logging off
+###17.	用gdb命令行执行脚本###
+gdb –x <脚本文件名> <执行程序> [core 文件]
+###18.	gdb调试中对c++类型namespace::classname###
+需要通过单引号包括。
+
+例如：namespace ClassName *p;
+
+(‘namespace::ClassName’ *)p;
+###19.	在gdb禁止SIG_PIPE信号###
+Late to the party, but just wanted to add to this for future reference: If you are debugging your code in gdb, don't forget that it overrides your signal handlers.
+So if you have set a signal handler such as: signal(SIGPIPE, SIG_IGN) and it doesn't seem to be working, try running the code outside the debugger.
+Or <pre><code>set handle SIGPIPE nostop</code></pre> (in gdb prompt) to prevent gdb stopping on the signal.
+
