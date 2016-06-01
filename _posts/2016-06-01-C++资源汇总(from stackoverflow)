@@ -1,0 +1,9 @@
+---
+layout: post
+title:  "C++资源汇集"
+categories: c++
+---
+### 运算符重载
+
+[operator] http://stackoverflow.com/questions/4421706/operator-overloading/4421729#4421729
+"operator"
