@@ -5,7 +5,7 @@ date:   2015-02-10 4:51:53
 categories: linux
 ---
 【声明】声明本文部分材料来源网络，如有疑问请联系。
-##linux常用网址收集
+## linux常用网址收集
 [linux资源][makelinux]
 
 [FNV算法][fnv]
@@ -25,33 +25,33 @@ categories: linux
 [tldp]:http://www.tldp.org/guides.html
 [grymoire]:http://www.grymoire.com/Unix/Sed.html#uh-47
 
-##系统配置
-###查看ubuntu的版本号
+## 系统配置
+### 查看ubuntu的版本号
 
 cat /etc/issue
 
-###linux下修改时间为上海时间[东8区]
+### linux下修改时间为上海时间[东8区]
 
     mv  /etc/localtime /etc/localtime.bak
     cp  /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
-###Ubuntu中用命令校正系统时间
+### Ubuntu中用命令校正系统时间
 
     sudo ntpdate 210.72.145.44
 
-###Linux socket接收缓冲区大小的配置：
+### Linux socket接收缓冲区大小的配置：
 
     /proc/sys/net/core/rmem_default
     /proc/sys/net/core/rmem_max
     /proc/net/udp, which is reporting used rcv buffer sizes, though.
     /proc/net/dev 维护网卡数据接收情况
-###sysctl 设置linux系统参数
+### sysctl 设置linux系统参数
 
     sysctl –a; 查询系统所有参数的配置
     sysctl –w net.ipv4.tcp_max_syn_backlog=32000;设置同时可以连接的tcp套接字数
     sysctl fs.file-max;查看系统范围内能打开的文件描述符数
     如果在系统启动的时候，希望设置，需要在文件：/etc/sysctl.conf中配置。
-###Linux /etc/fstab文件的说明
+### Linux /etc/fstab文件的说明
 
     这个文件是一个系统配置文件，主要记录了一些挂在文件的信息。当linux系统启动的时候，会读取这个文件，自动挂载。
     如果在linux终端下面执行 cat /etc/fstab ，会显示这个文件的格式，如下：
@@ -107,7 +107,7 @@ cat /etc/issue
 将所有的core文件生成到/corefile目录下，文件名的格式为core-命令名-pid-时间戳
 
     echo "/corefile/core-%e-%p-%t" > /proc/sys/kernel/core_pattern
-###修改Linux下最大open files 数
+### 修改Linux下最大open files 数
 
 issue:
 
@@ -156,7 +156,7 @@ When increasing file limit descriptors, you may want to simply double the value.
 if you need to increase the default value of 1024, increase the value to 2048 first. 
 If you need to increase it again, try 4096, etc. 
 
-###TCP 参数设置
+### TCP 参数设置
 
 Maximum number of connections are impacted by certain limits on both client & server sides, 
 albeit a little differently.
@@ -202,7 +202,7 @@ Similarly bump up the values for net.core.netdev_max_backlog and net.ipv4.tcp_ma
 Their default values are 1000 and 1024 respectively.
 Now remember to start both your client and server side applications by increasing the FD ulimts, in the shell.
 
-###设置select 函数FD_SETSIZE
+### 设置select 函数FD_SETSIZE
 
 问：I want to increase FD_SETSIZE macro value for my system. Is there any way to increase FD_SETSIZE so select will not fail
 
@@ -213,7 +213,7 @@ I have an alternate solution that should always work (even though it's not requi
 Instead of a single fd_set object, allocate an array of them large enough to hold the max fd you'll need,
 then use FD_SET(fd%FD_SETSIZE, &fds_array[fd/FD_SETSIZE]) etc. to access the set.
 
-###linux-shell-||,&&{},(),reg-命令执行顺序
+### linux-shell-||,&&{},(),reg-命令执行顺序
 
     &&
 
@@ -251,7 +251,7 @@ then use FD_SET(fd%FD_SETSIZE, &fds_array[fd/FD_SETSIZE]) etc. to access the set
     例：
     $comet month_end || (echo "Hello ,Comet did not work " | mail myself; exit)
     如果该脚本执行失败了，先给自己发个邮件，然后再退出.
-###ubuntu进入单用户模式
+### ubuntu进入单用户模式
 (1) 开机重启，压<ESC>键，进入下面界面
 
 (2) 通过键盘上下光标键，选择第二项(recovery mode)，然后按<e>键，记住不是回车。
@@ -260,7 +260,7 @@ then use FD_SET(fd%FD_SETSIZE, &fds_array[fd/FD_SETSIZE]) etc. to access the set
 
 (4) 修改 ro single 为 rw single init=/bin/bash ，然后按'回车键' , 按 'b' 键，重新引导。
 
-###获取cpu cache line size
+### 获取cpu cache line size
 (1) /sys/devices/system/cpu/cpu0/cache/
 
     This directory has a subdirectory for each level of cache. Each of those directories contains the following files:
@@ -283,7 +283,7 @@ then use FD_SET(fd%FD_SETSIZE, &fds_array[fd/FD_SETSIZE]) etc. to access the set
 
 (4) intel cpu ，用cpuid指令，可以参考nginx源码。
 
-##基本工具的使用
+## 基本工具的使用
 **2.1	利用鼠标，在linux终端进行文本选择，拷贝的技巧**
 
    If you highlight some text by holding down the left mouse button and
