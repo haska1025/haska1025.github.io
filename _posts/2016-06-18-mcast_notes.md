@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "linux常用命令使用集锦"
+title:  "组播编程的几个问题"
 date:   2015-02-10 4:51:53
-categories: linux
+categories: network
 ---
 ### 组播编程遇到的几个问题记录
 
