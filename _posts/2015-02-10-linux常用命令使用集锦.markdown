@@ -26,6 +26,7 @@ categories: linux
 [grymoire]:http://www.grymoire.com/Unix/Sed.html#uh-47
 
 ## 系统配置
+
 ### 查看ubuntu的版本号
 
 cat /etc/issue
