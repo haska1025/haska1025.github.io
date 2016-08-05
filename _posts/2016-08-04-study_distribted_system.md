@@ -19,3 +19,7 @@ categories: distributed system
 5 apache Avro
 
 6 Apache Curator
+
+7 参考
+
+[1] <http://www.hpcs.cs.tsukuba.ac.jp/~tatebe/lecture/h23/dsys/dsd-tutorial.html>
