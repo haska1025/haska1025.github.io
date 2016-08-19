@@ -20,6 +20,41 @@ categories: distributed system
 
 6 Apache Curator
 
-7 参考
+### 基本概念
+1 资源共享(Make resouces accessible)
+
+2 透明(Transparency)
+
+Access, Location, Migration, Relocation, Replication, Concurrency, Failure
+
+3 公开(openness)
+
+用标准的IDL(interface description language)描述接口
+
+complete(completeness)
+
+neutral(neutrality)
+
+Interoperabilty
+
+Portability
+
+Easy configure
+
+Separating policy from mechanism
+
+4 伸缩性(Scalability)
+
+4.1 容量/规模可扩展(size)
+
+4.2 地理位置扩展(Geographically scalability)
+
+4.3 系统管理可扩展(administratively scalability)
+
+4.4 扩展性问题(scalability problem)
+
+
+
+### 参考
 
 [1] <http://www.hpcs.cs.tsukuba.ac.jp/~tatebe/lecture/h23/dsys/dsd-tutorial.html>
