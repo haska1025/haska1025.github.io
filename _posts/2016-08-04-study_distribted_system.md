@@ -53,6 +53,20 @@ Separating policy from mechanism
 
 4.4 扩展性问题(scalability problem)
 
+5 架构风格(architectural style)
+
+5.1 Layered architectures
+
+5.2 Object-based architectures
+
+5.3 Data-centered architectures
+
+5.4 Event-based architectures
+
+publish/subscribe
+
+
+
 
 
 ### 参考
