@@ -642,4 +642,18 @@ Updates an existing working copy to r1729
     ifconfig eth1:3 192.168.1.13 netmask 255.255.255.0 & 
     ifconfig eth1:3 up
 
+**2.32 ubuntu 域名配置解析服务器**
+
+1 /etc/resolv.conf 
+
+nameserver 192.168.1.2
+
+nameserver 192.168.1.3
+
+2 /etc/nsswitch.conf
+
+hosts:          files dns
+
+
+
 
