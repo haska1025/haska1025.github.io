@@ -72,5 +72,9 @@ publish/subscribe
 ### 参考
 
 [1] <http://www.hpcs.cs.tsukuba.ac.jp/~tatebe/lecture/h23/dsys/dsd-tutorial.html>
+
 [2] <http://stackoverflow.com/questions/7607865/something-like-apache-zookeeper-with-no-java>
+
 [3] <http://stackoverflow.com/questions/6047917/zookeeper-alternatives-cluster-coordination-service>
+
+[4] <http://www.tutorialspoint.com/zookeeper/index.htm>
