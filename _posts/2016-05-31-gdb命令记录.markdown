@@ -102,3 +102,6 @@ Late to the party, but just wanted to add to this for future reference: If you a
 So if you have set a signal handler such as: signal(SIGPIPE, SIG_IGN) and it doesn't seem to be working, try running the code outside the debugger.
 Or <pre><code>set handle SIGPIPE nostop</code></pre> (in gdb prompt) to prevent gdb stopping on the signal.
 
+### 20. 用gcore生成coredump文件
+
+gcore -o corefilename pid
