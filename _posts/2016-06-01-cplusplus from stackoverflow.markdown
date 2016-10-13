@@ -13,3 +13,4 @@ categories: c++
 
 [1] <http://stackoverflow.com/questions/3601602/what-are-rvalues-lvalues-xvalues-glvalues-and-prvalues>
 
+[2] <http://stackoverflow.com/questions/14302849/syntax-for-universal-references>
