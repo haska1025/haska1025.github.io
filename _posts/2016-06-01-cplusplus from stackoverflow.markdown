@@ -16,3 +16,7 @@ categories: c++
 [2] <http://stackoverflow.com/questions/14302849/syntax-for-universal-references>
 
 [3] <http://stackoverflow.com/questions/7987952/how-to-use-c11-features-with-autoconf>
+
+### 格式化输出
+
+[1] <http://stackoverflow.com/questions/2524611/how-can-one-print-a-size-t-variable-portably-using-the-printf-family>
