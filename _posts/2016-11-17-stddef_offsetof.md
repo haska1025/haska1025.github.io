@@ -7,7 +7,8 @@ categories: c
 
 ### offsetof 说明
 
-在c标准的stddef.h中有一个获取c/c++结构或者类成员偏移量的宏offsetof,具体定义如下：
+在c标准的stddef.h中有一个获取c/c++结构或者类成员偏移量的宏offsetof,具体定义如下:
+
 ```c
  #ifdef  _WIN64
 #define offsetof(s,m)   (size_t)( (ptrdiff_t)&reinterpret_cast<const volatile char&>((((s *)0)->m)) )
