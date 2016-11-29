@@ -22,3 +22,7 @@ Domain Name System:
 Consistent hashing:
 
 [1] <http://www.codeproject.com/Articles/56138/Consistent-hashing>
+
+linux:
+
+[1] <http://www.linuxjournal.com/content/queueing-linux-network-stack?page=0,2>
