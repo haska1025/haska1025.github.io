@@ -23,8 +23,14 @@ Consistent hashing:
 
 [1] <http://www.codeproject.com/Articles/56138/Consistent-hashing>
 
+
 Cryptography & Encryption
 
 [1] <http://www.cyber-rights.org/crypto/cryptog.htm>
 
 [2] <http://www.brighthub.com/computing/enterprise-security/articles/65254.aspx>
+
+linux:
+
+[1] <http://www.linuxjournal.com/content/queueing-linux-network-stack?page=0,2>
+
