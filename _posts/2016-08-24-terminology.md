@@ -30,6 +30,16 @@ Cryptography & Encryption
 
 [2] <http://www.brighthub.com/computing/enterprise-security/articles/65254.aspx>
 
+[3] <https://en.wikipedia.org/wiki/Pretty_Good_Privacy>
+
+[4] <https://en.wikipedia.org/wiki/Public-key_cryptography>
+
+[5] <https://en.wikipedia.org/wiki/X.509>
+
+[6] <https://en.wikipedia.org/wiki/Root_certificate>
+
+[7] <https://en.wikipedia.org/wiki/Transport_Layer_Security>
+
 linux:
 
 [1] <http://www.linuxjournal.com/content/queueing-linux-network-stack?page=0,2>
