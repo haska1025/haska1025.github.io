@@ -40,6 +40,8 @@ Cryptography & Encryption
 
 [7] <https://en.wikipedia.org/wiki/Transport_Layer_Security>
 
+[8] <https://en.wikipedia.org/wiki/Symmetric-key_algorithm>
+
 linux:
 
 [1] <http://www.linuxjournal.com/content/queueing-linux-network-stack?page=0,2>
