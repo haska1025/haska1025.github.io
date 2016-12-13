@@ -59,18 +59,18 @@ encription是加密，用算法加密，是指一个动作。往往是指“将�
    |          |<------------------------------------|     |<----------------------|    |
    +----------+     Certificate signed              +-----+    Certificate signed +----+
         |                                      Validate subcriber's                  |
-		|		                                      identity                       |  
-		|Publish											                         |
+        |                                              identity                      |
+        |Publish                                                                     |
         |certificate                  +---------------------------------+------------+
-		|                             |                                 |
-		V                             V                                 V
+        |                             |                                 |
+        V                             V                                 V
    +------------+              +------------+                  +----------------+
    | Web Server |              | CRL Server |                  | OCSP Responder |
    +------------+              +------------+                  +----------------+
           ^ |                      ^                                    ^
-	1.Req | |2. Verify             |                                    |
-	Cert  | | Signature            |                                    |
-	      | V                      |                                    |
+    1.Req | |2. Verify             |                                    |
+    Cert  | | Signature            |                                    |
+          | V                      |                                    |
    +---------------+               |                                    |
    | Relying Party |---------------+------------------------------------+
    +---------------+ 3. Check for revocation
