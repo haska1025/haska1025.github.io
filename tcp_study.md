@@ -51,3 +51,50 @@ linux上抓包显示重试过程：
 16:14:32.009767 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1430812 ecr 0,nop,wscale 7], length 0
 16:14:48.025791 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1434816 ecr 0,nop,wscale 7], length 0
 16:15:20.089775 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1442832 ecr 0,nop,wscale 7], length 0
+
+### RTO
+
+1. 经典方法
+
+SRTT = alpha * SRTT + (1-alpha) * RTT, alpha的值一般是0.8~0.9
+
+RTO = min(ubound, max(lbound, beta*SRTT)), beta的值一般在1.3～2.0, ubound的建议值是1分钟，lbound的建议值是1秒。
+
+2. 标准方法
+
+srtt <- (1-g)srtt + gM, M是RTT的实时样本
+
+rttval <- (1-h)rttval + h(|M-srtt|)
+
+RTO = srtt + 4(rttval)
+
+修改以后的形式
+
+Err = M-srtt
+
+srtt <- srtt + g(Err)
+
+rttval <- rttval + h(|Err|-rttval)
+
+RTO = srtt + 4(rttval)
+
+g 是1/8, h是1/4
+
+3. srtt 和 rttval的初始值
+
+srtt <- M, M是第一个RTT的样本
+
+rttval <- (1/2)M, M是第一个RTT的样本
+
+### 重传二异性和Karn算法
+
+如果一个TCP Segment发生了重传，即在重传Segement发送以后，收到了此Segment的ACK，那么这是对此Segment的第一次发送ACK呢，还是对重传的ACK呢？
+
+因为搞不清楚是哪一次，会影响RTO的计算.
+
+Karn算法对此的解决办法是，对于重传Segment的ACK不参与RTT的估值计算。
+
+Karn算法另一个方面是重传的指数退避策略(binary exponential backoff),即每一次重传的时间是上一次重传时间间隔的2倍，直到收到了一个对非重传包的ACK。
+
+
+
