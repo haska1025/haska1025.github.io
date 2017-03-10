@@ -7,6 +7,10 @@ categories: kernel
 
 ### tcp_sock结构分析
 
+位置：include/linux/tcp.h
+
+#### 基础机构
+
     struct tcp_sock {
     /* inet_connection_sock has to be the first member of tcp_sock */
     struct inet_connection_sock inet_conn;
@@ -16,6 +20,7 @@ categories: kernel
     /*
      *  Header prediction flags
      *  0x5?10 << 16 + snd_wnd in net byte order
+	 *  预判标志，判定是否走快速处理路径
      */
     __be32  pred_flags;
     
@@ -26,8 +31,8 @@ categories: kernel
      *  See RFC793 and RFC1122. The RFC writes these in capitals.
      */
     u32 rcv_nxt;    /* What we want to receive next     */
-    u32 copied_seq; /* Head of yet unread data      */
-    u32 rcv_wup;    /* rcv_nxt on last window update sent   */
+    u32 copied_seq; /* Head of yet unread data，未读数据开头的序列号      */
+    u32 rcv_wup;    /* rcv_nxt on last window update sent，窗口更新就是发送ACK？发送ACK后就更新成rcv_nxt  */
     u32 snd_nxt;    /* Next sequence we send        */
 
     u32 snd_una;    /* First byte we want an ack for    */
@@ -195,4 +200,62 @@ categories: kernel
      * socket. Used to retransmit SYNACKs etc.
      */
     struct request_sock *fastopen_rsk;
+    };
+
+#### tcp选项
+	
+    struct tcp_options_received {
+        /*  PAWS/RTTM data  */
+        long    ts_recent_stamp;/* Time we stored ts_recent (for aging) */
+        u32 ts_recent;  /* Time stamp to echo next      */
+        u32 rcv_tsval;  /* Time stamp value                 */
+        u32 rcv_tsecr;  /* Time stamp echo reply            */
+        u16     saw_tstamp : 1, /* Saw TIMESTAMP on last packet     */
+            tstamp_ok : 1,  /* TIMESTAMP seen on SYN packet     */
+            dsack : 1,  /* D-SACK is scheduled          */
+            wscale_ok : 1,  /* Wscale seen on SYN packet        */
+            sack_ok : 4,    /* SACK seen on SYN packet      */
+            snd_wscale : 4, /* Window scaling received from sender  */
+            rcv_wscale : 4; /* Window scaling to send to receiver   */
+        u8  cookie_plus:6,  /* bytes in authenticator/cookie option */
+            cookie_out_never:1,
+            cookie_in_always:1;
+        u8  num_sacks;  /* Number of SACK blocks        */
+        u16 user_mss;   /* mss requested by user in ioctl   */
+        u16 mss_clamp;  /* Maximal mss, negotiated at connection setup */
+    };
+   
+#### tcp_skb_cb
+    
+	此结构主要是实现TCP的每一个要发送的Segment保存的信息，
+	此信息占用的内存结构是sk_buff中的cb字段。
+	
+    /* This is what the send packet queuing engine uses to pass
+     * TCP per-packet control information to the transmission code.
+     * We also store the host-order sequence numbers in here too.
+     * This is 44 bytes if IPV6 is enabled.
+     * If this grows please adjust skbuff.h:skbuff->cb[xxx] size appropriately.
+     */
+    struct tcp_skb_cb {
+        union {
+            struct inet_skb_parm    h4;
+    #if IS_ENABLED(CONFIG_IPV6)
+            struct inet6_skb_parm   h6;
+    #endif
+        } header;   /* For incoming frames      */
+        __u32       seq;        /* Starting sequence number */
+        __u32       end_seq;    /* SEQ + FIN + SYN + datalen    */
+        __u32       when;       /* used to compute rtt's 保存发送的时间戳    */
+        __u8        tcp_flags;  /* TCP header flags. (tcp[13])  */
+        __u8        sacked;     /* State flags for SACK/FACK.   */
+    #define TCPCB_SACKED_ACKED  0x01    /* SKB ACK'd by a SACK block    */
+    #define TCPCB_SACKED_RETRANS    0x02    /* SKB retransmitted        */
+    #define TCPCB_LOST      0x04    /* SKB is lost          */
+    #define TCPCB_TAGBITS       0x07    /* All tag bits         */
+        __u8        ip_dsfield; /* IPv4 tos or IPv6 dsfield */
+        /* 1 byte hole */
+    #define TCPCB_EVER_RETRANS  0x80    /* Ever retransmitted frame */
+    #define TCPCB_RETRANS       (TCPCB_SACKED_RETRANS|TCPCB_EVER_RETRANS)
+   
+        __u32       ack_seq;    /* Sequence number ACK'd    */
     };

@@ -48,6 +48,18 @@ categories: kernel
        * don't add nothing before this first member (__sk_common) --acme
        */
       struct sock_common  __sk_common;
+	  
+	  // sock 接收队列
+	  struct sk_buff_head sk_receive_queue;
+	  
+	  // sock 异步接收队列，启动DMA才生效？
+ #ifdef CONFIG_NET_DMA
+      struct sk_buff_head sk_async_wait_queue;
+ #endif
+	  
+	  // sock 发送队列
+	  struct sk_buff_head sk_write_queue;
+	  
     }
 
 
@@ -134,3 +146,22 @@ struct inet_protosw {} /* This is used to register socket interfaces for IP prot
     }；
 
 ### 12 net/ipv4/tcp.c
+
+### 13 include/net/tcp.h
+
+    /* sysctl variables for tcp */
+    extern int sysctl_tcp_timestamps;
+    extern int sysctl_tcp_window_scaling;
+    extern int sysctl_tcp_sack;
+
+
+### 13 TCP接收过程主要函数调用
+
+    tcp_v4_do_rcv    net/ipv4/tcp_input.c
+          |
+	      V
+    tcp_rcv_established     net/ipv4/tcp_input.c
+	      |
+		  V
+        tcp_ack             net/ipv4/tcp_input.c 
+	
