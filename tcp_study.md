@@ -17,15 +17,35 @@ two ways:
 
 2.2 window update
 
-  explict signaling (The window advertisement from receiver)
+  explict signaling (The window advertisement from receiver)：每一个包的交互，都带着接收窗口的大小。
   
-  window update and ACK in a single packet
+  window update:接收窗口有变化，但是ACK的序号没有变化，并且是没有带Data的ACK。
   
-### congestion control
-
 ### TCP options
 
+1. MSS(Maximum segment size)
 
+2. Timestamp
+
+作用：
+
+2.1 更好的估算RTT
+
+2.2 PAWS(Protection Against Wrapped  Sequence Number),即避免接收到老的Segment
+
+3. SACK(Selected acknoledgement)
+
+在连接建立阶段，需要通告对方是否支持SACK
+
+SACK是在TCP的选项里面填上Receiver接收队列中的接收的Segment，格式：begin seq(4bytes) end seq(4bytes)
+
+SACK 一般要和TSOPT一起用，对于最多支持40字节的TCP Option，最多能用3个blocks
+
+2bytes padding + TSOPT(2+8bytes) + SACK(2 + 3*8 bytes) + 2 bytes padding
+
+4. Window scale
+
+window长度超过65535字节的支持
 
 ### ISN (Initial Sequence Number)
 
@@ -33,11 +53,14 @@ ISN 是随机生成的，作用如下：
 
 1. 防止网络丢包在同一个连接的不同替身之间混传，造成错误。
 
-比如：由于网络拥塞，导致tcp断线，但是一部分网络包还在网上。等新连接建立后(两端ip+port都相同，认为是同一个tcp连接），就连接实例的包又在新连接上传输，这样会导致tcp连接出现错误，如果前后两个连接的ISN不同，那么那些旧的包对新连接的影响会几乎没有。
+比如：由于网络拥塞，导致tcp断线，但是一部分网络包还在网上。等新连接建立后(两端ip+port都相同，
+认为是同一个tcp连接），就连接实例的包又在新连接上传输，这样会导致tcp连接出现错误，
+如果前后两个连接的ISN不同，那么那些旧的包对新连接的影响会几乎没有。
 
 2. 防止网络攻击
 
-比如：恶意破坏行为可以在某一个tcp连接上发送数据包(这个包只要保证两对 Ip+port，窗口信息这些都是合理的），堆连接造成破坏。如果ISN很难被猜测到，那么这种破坏就一定程度可以避免。
+比如：恶意破坏行为可以在某一个tcp连接上发送数据包(这个包只要保证两对 Ip+port，窗口信息这些都是合理的），
+堆连接造成破坏。如果ISN很难被猜测到，那么这种破坏就一定程度可以避免。
 
 ### 连接建立的超时重试机制
 
@@ -51,13 +74,13 @@ net.ipv4.tcp_synack_retries = 5
 
 linux上抓包显示重试过程：
 
-16:14:16.979206 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1427054 ecr 0,nop,wscale 7], length 0
-16:14:17.977774 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1427304 ecr 0,nop,wscale 7], length 0
-16:14:19.981726 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1427805 ecr 0,nop,wscale 7], length 0
-16:14:23.993767 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1428808 ecr 0,nop,wscale 7], length 0
-16:14:32.009767 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1430812 ecr 0,nop,wscale 7], length 0
-16:14:48.025791 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1434816 ecr 0,nop,wscale 7], length 0
-16:15:20.089775 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1442832 ecr 0,nop,wscale 7], length 0
+    16:14:16.979206 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1427054 ecr 0,nop,wscale 7], length 0
+    16:14:17.977774 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1427304 ecr 0,nop,wscale 7], length 0
+    16:14:19.981726 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1427805 ecr 0,nop,wscale 7], length 0
+    16:14:23.993767 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1428808 ecr 0,nop,wscale 7], length 0
+    16:14:32.009767 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1430812 ecr 0,nop,wscale 7], length 0
+    16:14:48.025791 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1434816 ecr 0,nop,wscale 7], length 0
+    16:15:20.089775 IP 192.168.1.121.56878 > 192.168.10.181.http: Flags [S], seq 993432495, win 29200, options [mss 1460,sackOK,TS val 1442832 ecr 0,nop,wscale 7], length 0
 
 ### RTT/RTO
 
@@ -65,13 +88,16 @@ linux上抓包显示重试过程：
 
 1.1 RTT(Round-Trip Time): 表示发送一个数据包和接收到对此数据包反馈的时间差。
 
-RTT和应用程序的处理，通信子网中队列缓存时间，链路传输时间三部分相关。由于网络顺心万变，RTT变化也是非常大，比如网络繁忙，路由节点拥塞，会导致RTT变长。
+RTT和应用程序的处理，通信子网中队列缓存时间，链路传输时间三部分相关。
+由于网络顺心万变，RTT变化也是非常大，比如网络繁忙，路由节点拥塞，会导致RTT变长。
 
-1.2 RTO(Retransimission timeout): 当发送端没有收到接收端的反馈(ACK)，需要设置一个超时时间，补发segment给接收端。
+1.2 RTO(Retransimission timeout): 当发送端没有收到接收端的反馈(ACK)，
+需要设置一个超时时间，补发segment给接收端。
 
 理论上，RTO应该和网络真实RTT相当，因为这样可以确定发送端发的包就是没有被接收方收到。
 
-然而，网络变化很快，RTT采样(RTT Sample)也是变化很大，统计学通过计算RTT的"标准偏差"(Standard deviation),可以估算出真实的RTT。
+然而，网络变化很快，RTT采样(RTT Sample)也是变化很大，统计学通过计算RTT的"标准偏差"(Standard deviation),
+可以估算出真实的RTT。
 
 但是标准偏差需要计算平方根，而RTT的计算又是很频繁的，为了提高效率，用"均值偏差(Mean deviation)"来代替。
 
@@ -89,15 +115,16 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\TCPIP6\Parameters
 
 貌似也没发现TcpMaxDataRetransmissions
 
-1. 经典方法
+2. 经典方法
 
 SRTT = alpha * SRTT + (1-alpha) * RTT, alpha的值一般是0.8~0.9
 
 这种方法叫EWMA(exponential weighted moving average) 或者是 low-pass filter。
 
-RTO = min(ubound, max(lbound, beta*SRTT)), beta的值一般在1.3～2.0, ubound的建议值是1分钟，lbound的建议值是1秒。
+RTO = min(ubound, max(lbound, beta*SRTT)), beta的值一般在1.3～2.0, 
+ubound的建议值是1分钟，lbound的建议值是1秒。
 
-2. 标准方法
+3. 标准方法
 
 srtt <- (1-g)srtt + gM, M是RTT的实时样本
 
@@ -117,13 +144,13 @@ RTO = srtt + 4(rttvar)
 
 g 是1/8, h是1/4
 
-3. srtt 和 rttval的初始值
+4. srtt 和 rttval的初始值
 
 srtt <- M, M是第一个RTT的样本
 
 rttvar <- (1/2)M, M是第一个RTT的样本
 
-4. linux 方法
+5. linux 方法
 
 mdev = mdev(3/4) + |m-srtt|(1/4)
 
@@ -141,7 +168,8 @@ RTO = srtt + 4(rttvar)
 
 1. 重传二异性
 
-如果一个TCP Segment发生了重传，即在重传Segement发送以后，收到了此Segment的ACK，那么这是对此Segment的第一次发送ACK呢，还是对重传的ACK呢？
+如果一个TCP Segment发生了重传，即在重传Segement发送以后，收到了此Segment的ACK，
+那么这是对此Segment的第一次发送ACK呢，还是对重传的ACK呢？
 
 因为搞不清楚是哪一次，会影响RTO的计算.
 
@@ -149,13 +177,14 @@ RTO = srtt + 4(rttvar)
 
 Karn算法对此的解决办法是，对于重传Segment的ACK不参与RTT的估值计算。
 
-Karn算法另一个方面是重传的指数退避策略(binary exponential backoff),即每一次重传的时间是上一次重传时间间隔的2倍，直到收到了一个对非重传包的ACK。
+Karn算法另一个方面是重传的指数退避策略(binary exponential backoff),
+即每一次重传的时间是上一次重传时间间隔的2倍，直到收到了一个对非重传包的ACK。
 
 3. 超时重传(Timer-based Retransimission)
 
 4. 快速重传
 
-dupthresh 重传门限值，表示等几个Duplicate ACK，才认为发送的Segment已经丢了，决定重传之。
+dupthresh：重传门限值，表示等几个Duplicate ACK，才认为发送的Segment已经丢了，决定重传之。
 
 达到dupthresh门限值后，TCP不会等到重传定时器，就会立即重传。
 
@@ -165,13 +194,113 @@ NewReno算法
 
 Plain Reno算法
 
-5. SACK
+### congestion control(拥塞控制)
 
-SACK是在TCP的选项里面填上Receiver接收队列中的接收的Segment，格式：begin seq(4bytes) end seq(4bytes)
+1. 拥塞的概念
 
-SACK 一般要和TSOPT一起用，对于最多支持40字节的TCP Option，最多能用3个blocks
+当网络中传输的流量超过路由器的处理能力时候，会导致路由器转发队列的包(packet)积压，
+当路由器的队列塞满以后，路由器无法处理，只能丢弃，这样会出现丢包，也就是我们说的拥塞(congestion).
 
-2bytes padding + TSOPT(2+8bytes) + SACK(2 + 3*8 bytes) + 2 bytes padding
+有线网络(wired networks), 丢包主要是因为路由器或交换机拥塞导致。
+
+无线网络(wireless networks),丢包主要是因为收发包的错误导致，无线信号会因为很多原因导致数据包错误。
+
+2. 拥塞要解决的问题
+
+TCP要解决的问题就是(1)要知道何时发生了拥塞？(2)如何避免发生拥塞?
+目前路由器支持了ECN(explict congestion notify)机制，可以通知Sender某一个地方拥塞了。
+早期的路由器没有显式通知机制，所以TCP协议想了很多办法来解决这个问题。
+
+3. 窗口
+
+awnd(Advertised window): 是tcp hdr里面的字段，占用16个字节，是有Receiver告诉Sender自己的接收能力，
+即接收端buffer大小。当WSCALE选项打开的时候，需要乘以这个因子。
+
+cwnd(Congestion window): 估计网络实际带宽，这个值是随着网络的变化会发生变化的。
+
+W=min(cwnd, awnd): W即代表了Sender实际的发送能力，选取接收端和网络实际带宽二者间最小的。
+
+flight size: Sender已经发送，但是没有收到Receiver ACK的长度。flight size < W
+
+cwnd, awnd都会随着数据的传输发生变化。
+               |<-------------SND.WND----------->|
+       +-------+---------------------------------+----+
+       | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 |    |
+       +-------+-----------------------+---------+----+
+     Sent ACK<-^ Sent and Not ACK      ^         ^
+               |                       |         |
+			 SND.UNA               SND.NXT  (SND.UNA+SND.WND)
+
+4. 慢启动(Slow start)
+
+SMSS(Special maximum segment size), 这一般是多大呢？
+
+Good ACK:是指tcp hdr的ack sequence有新的变化，会促使SND.UNA发生变化
+
+IW(initial window), [RFC5681]规定他的取值如下：
+
+IW = 2*(SMSS) and not more than 2 segments (if SMSS>2190 bytes)
+
+IW = 3*(SMSS) and not more than 3 segments (if 2190>=SMSS>1095 bytes)
+
+IW = 4*(SMSS) and not more than 4 segments (otherwise)
+
+cwnd += min(N, SMSS)
+
+N是当Sender收到Good ACK后之前处于sent unack状态的data被ACK的字节数
+
+按照这样的方式增长cwnd，如果cwnd初始值是1，收到一个ACK后变成2，然后发两个包；收到两个ACK后cwnd变成4；
+如果不丢包，理想情况下会变成，8,16...，第k轮发送后，cwnd=2^k, 所以慢启动过程cwnd增长是指数单调递增的，
+慢启动并不慢。
+
+5. 拥塞避免(Congestion avoidance)
+
+慢启动算法的cwnd是指数增长，如果Receiver的buffer无限大，那么这个值会很大，超过网络带宽。
+这样起不到流量控制的作用，必然造成拥塞。为此引入了ssthresh(slow start threshhold)，
+即慢启动门限这个变量。一旦cwnd达到了ssthresh，tcp就该进入拥塞避免阶段。
+
+拥塞避免的算法如下：
+
+cwnd(t+1) = cwnd(t) +SMSS*SMSS/cwnd(t)
+
+从这个可以看出拥塞避免算法，cwnd是线性增加的。
+
+6. 慢启动和拥塞控制究竟如何选择？
+
+cwnd < ssthresh 慢启动；
+cwnd > ssthresh 拥塞避免
+
+ssthresh的初始值一般设为awnd或者更大，进入慢启动过程。当RTO超时或者需要快速重传(dupthresh 个重传)，
+需要更新ssthresh, 更新方法如下：
+
+ssthresh = max(flight size/2, 2*SMSS)
+
+7. 快速恢复(fast recovery)
+
+如果遇上了ssthresh更新，为了最大化探测带宽，快速重传完了，进入快速恢复模式。
+每收到一个重复ACK，cwnd增加一个SMSS，直到收到一个Good ACK，停止快速恢复。
+
+8. 标准TCP
+
+1) 初始化，cwnd=IW
+
+2) cwnd增长，if (cwnd < ssthresh) cwnd += SMSS, 慢启动；if (cwnd > ssthresh) cwnd += SMSS*SMSS/cwnd, 拥塞避免
+
+3) 当收到重复ACK，需要快速重传的时候，更新ssthresh=max(min(awnd,cwnd)/2, 2*SMSS)
+
+4) 设置cwnd=ssthresh+3*SMSS
+
+5) 进入快速恢复 cwnd += SMSS,每收到一个重复ACK，都要执行此操作
+
+6) 当收到一个Good ACK后，停止快速恢复，设置cwnd=ssthresh
+
+
+
+
+
+ 
+
+
 
 
 

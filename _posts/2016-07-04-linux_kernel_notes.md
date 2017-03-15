@@ -157,11 +157,11 @@ struct inet_protosw {} /* This is used to register socket interfaces for IP prot
 
 ### 13 TCP接收过程主要函数调用
 
-    tcp_v4_do_rcv    net/ipv4/tcp_input.c
+    tcp_v4_do_rcv    net/ipv4/tcp_ipv4.c
           |
 	      V
     tcp_rcv_established     net/ipv4/tcp_input.c
 	      |
-		  V
+          V
         tcp_ack             net/ipv4/tcp_input.c 
 	
