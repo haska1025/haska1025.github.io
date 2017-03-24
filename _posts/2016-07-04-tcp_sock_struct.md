@@ -30,9 +30,9 @@ categories: kernel
      *  read the code and the spec side by side (and laugh ...)
      *  See RFC793 and RFC1122. The RFC writes these in capitals.
      */
-    u32 rcv_nxt;    /* What we want to receive next     */
+    u32 rcv_nxt;    /* What we want to receive next  下一个期望收到的序号   */
     u32 copied_seq; /* Head of yet unread data，未读数据开头的序列号      */
-    u32 rcv_wup;    /* rcv_nxt on last window update sent，窗口更新就是发送ACK？发送ACK后就更新成rcv_nxt  */
+    u32 rcv_wup;    /* rcv_nxt on last window update sent，窗口更新就是发送ACK，ACK序号有新的变化(snd_una会移动)。发送ACK后就更新成rcv_nxt  */
     u32 snd_nxt;    /* Next sequence we send        */
 
     u32 snd_una;    /* First byte we want an ack for    */
@@ -54,9 +54,9 @@ categories: kernel
         int         len;
     } ucopy;
 
-    u32 snd_wl1;    /* Sequence for window update       */
-    u32 snd_wnd;    /* The window we expect to receive  */
-    u32 max_window; /* Maximal window ever seen from peer   */
+    u32 snd_wl1;    /* Sequence for window update窗口更新的ACK序号 */
+    u32 snd_wnd;    /* The window we expect to receive，接到对方ACK后，tcphdr中window字段  */
+    u32 max_window; /* Maximal window ever seen from peer，snd_wnd的最大值  */
     u32 mss_cache;  /* Cached effective mss, not including SACKS */
 
     u32 window_clamp;   /* Maximal window to advertise      */
@@ -83,7 +83,7 @@ categories: kernel
     u32 rttvar_us;  /* smoothed mdev_max            */
     u32 rtt_seq;    /* sequence number to update rttvar */
 
-    u32 packets_out;    /* Packets which are "in flight"    */
+    u32 packets_out;    /* Packets which are "in flight"， SND.NXT-SND.UNA   */
     u32 retrans_out;    /* Retransmitted packets out        */
     u32 max_packets_out;  /* max packets_out in last window */
     u32 max_packets_seq;  /* right edge of max_packets_out flight */
@@ -117,18 +117,19 @@ categories: kernel
     u32 write_seq;  /* Tail(+1) of data held in tcp send buffer */
     u32 notsent_lowat;  /* TCP_NOTSENT_LOWAT */
     u32 pushed_seq; /* Last pushed seq, required to talk to windows */
-    u32 lost_out;   /* Lost packets         */
-    u32 sacked_out; /* SACK'd packets           */
-    u32 fackets_out;    /* FACK'd packets           */
+    u32 lost_out;   /* Lost packets  在网络上丢失的段       */
+    u32 sacked_out; /* SACK'd packets 发送在网络上，乱序的段？但是没有被ack  */
+    u32 fackets_out;    /* FACK'd packets 被acked包总数？          */
     u32 tso_deferred;
 
     /* from STCP, retrans queue hinting */
     struct sk_buff* lost_skb_hint;
     struct sk_buff *retransmit_skb_hint;
 
-    /* OOO segments go in this list. Note that socket lock must be held,
+    /* OOO(out of order) segments go in this list. Note that socket lock must be held,
      * as we do not use sk_buff_head lock.
      */
+	//乱序队列
     struct sk_buff_head out_of_order_queue;
 
     /* SACKs data, these 2 need to be together (see tcp_options_write) */
@@ -211,7 +212,7 @@ categories: kernel
         u32 rcv_tsval;  /* Time stamp value                 */
         u32 rcv_tsecr;  /* Time stamp echo reply            */
         u16     saw_tstamp : 1, /* Saw TIMESTAMP on last packet     */
-            tstamp_ok : 1,  /* TIMESTAMP seen on SYN packet     */
+            tstamp_ok : 1,  /* TIMESTAMP seen on SYN packet  在连接建立阶段打开tstamp选项   */
             dsack : 1,  /* D-SACK is scheduled          */
             wscale_ok : 1,  /* Wscale seen on SYN packet        */
             sack_ok : 4,    /* SACK seen on SYN packet      */
@@ -220,9 +221,9 @@ categories: kernel
         u8  cookie_plus:6,  /* bytes in authenticator/cookie option */
             cookie_out_never:1,
             cookie_in_always:1;
-        u8  num_sacks;  /* Number of SACK blocks        */
-        u16 user_mss;   /* mss requested by user in ioctl   */
-        u16 mss_clamp;  /* Maximal mss, negotiated at connection setup */
+        u8  num_sacks;  /* Number of SACK blocks SACK块的个数       */
+        u16 user_mss;   /* mss requested by user in ioctl，用户通过设置TCP_MAXSEG得到的值  */
+        u16 mss_clamp;  /* Maximal mss, negotiated at connection setup,连接建立过程中，SYN包的tcp选项得到的 */
     };
    
 #### tcp_skb_cb
@@ -243,11 +244,11 @@ categories: kernel
             struct inet6_skb_parm   h6;
     #endif
         } header;   /* For incoming frames      */
-        __u32       seq;        /* Starting sequence number */
-        __u32       end_seq;    /* SEQ + FIN + SYN + datalen    */
+        __u32       seq;        /* Starting sequence number tcphdr里带的发送序号 */
+        __u32       end_seq;    /* SEQ + FIN + SYN + datalen 因为FIN，SYN都占一个字节的序号    */
         __u32       when;       /* used to compute rtt's 保存发送的时间戳    */
-        __u8        tcp_flags;  /* TCP header flags. (tcp[13])  */
-        __u8        sacked;     /* State flags for SACK/FACK.   */
+        __u8        tcp_flags;  /* TCP header flags. (tcp[13]) TCPhdr中的标记 */
+        __u8        sacked;     /* State flags for SACK/FACK.  sack标记，貌似还记录sack块相对于tcphdr尾端(20字节)的偏移量？ */
     #define TCPCB_SACKED_ACKED  0x01    /* SKB ACK'd by a SACK block    */
     #define TCPCB_SACKED_RETRANS    0x02    /* SKB retransmitted        */
     #define TCPCB_LOST      0x04    /* SKB is lost          */
@@ -257,5 +258,5 @@ categories: kernel
     #define TCPCB_EVER_RETRANS  0x80    /* Ever retransmitted frame */
     #define TCPCB_RETRANS       (TCPCB_SACKED_RETRANS|TCPCB_EVER_RETRANS)
    
-        __u32       ack_seq;    /* Sequence number ACK'd    */
+        __u32       ack_seq;    /* Sequence number ACK'd  TCPhdr里带的ack sequence  */
     };

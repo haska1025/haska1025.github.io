@@ -51,7 +51,8 @@ categories: kernel
 	  
 	  // sock 接收队列
 	  struct sk_buff_head sk_receive_queue;
-	  
+	  // 接收队列的上限，单位是字节
+	  int         sk_rcvbuf;
 	  // sock 异步接收队列，启动DMA才生效？
  #ifdef CONFIG_NET_DMA
       struct sk_buff_head sk_async_wait_queue;
@@ -59,7 +60,12 @@ categories: kernel
 	  
 	  // sock 发送队列
 	  struct sk_buff_head sk_write_queue;
-	  
+	  // 发送队列的上限，单位是字节
+	  int         sk_sndbuf;
+	  // 发送队列缓存的数据，单位是字节
+	  int         sk_wmem_queued;
+	  // 当前发送的skb
+	  struct sk_buff      *sk_send_head;
     }
 
 
@@ -82,6 +88,24 @@ struct proto {} 结构是 socket layer -> transport layer interface
       -> (void)sock_register(&inet_family_ops); 注册ipv4协议族到socket
       -> inet_add_protocol() 将icmp,udp,tcp,igmp 的net_protocol结构加入到inet_protos数组里
       -> inet_register_protosw() 将inetsw_array数组中定义的tcp,udp,icmp,raw结构注册到inetsw列表
+      -> /*
+      ->  *  Set the IP module up
+      ->  */
+      ->
+      -> ip_init();
+      ->
+      -> tcp_v4_init();
+      ->
+      -> /* Setup TCP slab cache for open requests. */
+      -> tcp_init();
+      ->
+      -> /* Setup UDP memory threshold */
+      -> udp_init();
+      ->
+      -> /* Add UDP-Lite (RFC 3828) */
+      -> udplite4_register();
+      ->
+      -> ping_init();
 
     -> ipv4协议族 
     static const struct net_proto_family inet_family_ops = {
@@ -117,6 +141,8 @@ struct inet_protosw {} /* This is used to register socket interfaces for IP prot
 ### 7 net/ipv4/tcp_ipv4.c
     -> struct proto tcp_prot
     
+	-> tcp_v4_init_sock 对tcp的收发buffer、窗口、拥塞控制相关变量进行初始化
+	
 ### 8 net/ipv4/udp.c
     -> struct proto udp_prot = {
 
@@ -143,10 +169,14 @@ struct inet_protosw {} /* This is used to register socket interfaces for IP prot
     struct inet_connection_sock {
         /* inet_sock has to be the first member! */
         struct inet_sock      icsk_inet;
+		// 拥塞控制算法相关函数
+		const struct tcp_congestion_ops *icsk_ca_ops;
     }；
 
 ### 12 net/ipv4/tcp.c
-
+    -> tcp_init
+	  -> tcp_register_congestion_control(&tcp_reno); //注册拥塞控制算法，默认是reno算法
+	  
 ### 13 include/net/tcp.h
 
     /* sysctl variables for tcp */
@@ -156,12 +186,16 @@ struct inet_protosw {} /* This is used to register socket interfaces for IP prot
 
 
 ### 13 TCP接收过程主要函数调用
-
-    tcp_v4_do_rcv    net/ipv4/tcp_ipv4.c
-          |
-	      V
-    tcp_rcv_established     net/ipv4/tcp_input.c
-	      |
-          V
-        tcp_ack             net/ipv4/tcp_input.c 
-	
+    -> tcp_v4_rcv         net/ipv4/tcp_ipv4.c
+      -> tcp_v4_do_rcv    net/ipv4/tcp_ipv4.c
+        -> tcp_rcv_established     net/ipv4/tcp_input.c
+	      -> tcp_ack               net/ipv4/tcp_input.c
+		    -> tcp_ack_update_window     net/ipv4/tcp_input.c;更新窗口主要是snd_wl1, snd_wnd
+	          -> tcp_may_update_window   net/ipv4/tcp_input.c;窗口更新的检测条件
+			  —> tcp_fast_path_check     net/ipv4/tcp_input.c;检测是否打开快速路径 
+### 14 TCP数据发送函数调用
+    -> tcp_sendmsg          net/ipv4/tcp.c
+      -> tcp_push           net/ipv4/tcp.c
+	    -> __tcp_push_pending_frames          net/ipv4/tcp_output.c
+		  -> tcp_write_xmit
+          

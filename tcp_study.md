@@ -253,6 +253,8 @@ N是当Sender收到Good ACK后之前处于sent unack状态的data被ACK的字节
 如果不丢包，理想情况下会变成，8,16...，第k轮发送后，cwnd=2^k, 所以慢启动过程cwnd增长是指数单调递增的，
 慢启动并不慢。
 
+当连接初始化或者RTO超时，进入慢启动。
+
 5. 拥塞避免(Congestion avoidance)
 
 慢启动算法的cwnd是指数增长，如果Receiver的buffer无限大，那么这个值会很大，超过网络带宽。
@@ -270,7 +272,7 @@ cwnd(t+1) = cwnd(t) +SMSS*SMSS/cwnd(t)
 cwnd < ssthresh 慢启动；
 cwnd > ssthresh 拥塞避免
 
-ssthresh的初始值一般设为awnd或者更大，进入慢启动过程。当RTO超时或者需要快速重传(dupthresh 个重传)，
+ssthresh的初始值一般设为awnd或者更大，进入慢启动过程。当需要快速重传(dupthresh 个重传)，
 需要更新ssthresh, 更新方法如下：
 
 ssthresh = max(flight size/2, 2*SMSS)
@@ -279,6 +281,9 @@ ssthresh = max(flight size/2, 2*SMSS)
 
 如果遇上了ssthresh更新，为了最大化探测带宽，快速重传完了，进入快速恢复模式。
 每收到一个重复ACK，cwnd增加一个SMSS，直到收到一个Good ACK，停止快速恢复。
+
+恢复点(recovery point): 当TCP重传的时候，需要记录最近一次发送的序列号。
+RenoNew算法对前面的快速恢复算法进行了修正，当收到的GoodACK匹配或者超过了恢复点以后，才停止快速恢复。
 
 8. 标准TCP
 
@@ -294,7 +299,29 @@ ssthresh = max(flight size/2, 2*SMSS)
 
 6) 当收到一个Good ACK后，停止快速恢复，设置cwnd=ssthresh
 
+9. FACK(forward acknowledgement)
 
+9.1 FACK Design Goals
+
+The requisite network state information can be obtained with accurate knowledge about the forward
+most data held by the receiver. By forward-most, we mean the correctly-received data with the highest
+sequence number. This is the origin of the name "forward acknowledgement."
+The goal of the FACK algorithm is to perform precise congestion control during recovery by keeping
+an accurate estimate of the amount of data outstanding in the network.
+
+9.2 The FACK Algorithm
+
+When a SACK block is received which acknowledges data with a higher sequence number than the
+current value of snd.fack, snd.fack is updated to reflect the highest sequence number known to have
+been received plus one.
+The FACK algorithm uses the additional information provided by the SACK option to keep an explicit
+measure of the total number of bytes of data outstanding in the network. In contrast, Reno and
+Reno + SACK both attempt to estimate this by assuming that each duplicate ACK received represents
+one segment which has left the network.
+The FACK algorithm is able to do this in a staightforward way by introducing two new state variables,
+snd.fack and retran_data.
+TCP's estimate of the amount of data outstanding in the network during recovery is given by:
+awind = snd.nxt - snd.fack + retran_data
 
 
 
