@@ -20,3 +20,7 @@ categories: c++
 ### 格式化输出
 
 [1] <http://stackoverflow.com/questions/2524611/how-can-one-print-a-size-t-variable-portably-using-the-printf-family>
+
+### linux相关
+
+[1] kern.log error 4 <http://stackoverflow.com/questions/2549214/interpreting-segfault-messages>
