@@ -23,6 +23,8 @@ Listen 8043
         RedirectMatch ^/$ 192.168.38.99/api
 </VirtualHost>
 ```
+http://www.giuseppeurso.eu/en/redirect-from-http-to-https-and-viceversa-with-apache-proxypass/
+
 
 
 
