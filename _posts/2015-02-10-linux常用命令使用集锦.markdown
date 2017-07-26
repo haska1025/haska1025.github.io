@@ -366,6 +366,7 @@ pasted at the cursor location
     dpkg --get-selections > package_list 获取所有已经按照deb包列表，保存在package_list中
     dpkg --set-selections < package_list 将package_list中deb列表，导入
     apt-get dselect-upgrade 升级package_list中指定的软件包
+	dh_make -i -s -createorig 创建debian目录和，debian打包相关文件
 
 **2.10	lsof**
 
