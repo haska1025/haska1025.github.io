@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "java"
+title:  "java build on linux"
 date:   2017-09-04 16:47:53
 categories: java
 ---

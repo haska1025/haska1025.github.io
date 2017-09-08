@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "apache"
+title:  "apache config"
 date:   2017-06-15 16:47:53
 categories: apache
 ---
