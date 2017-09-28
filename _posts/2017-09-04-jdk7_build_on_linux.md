@@ -92,6 +92,8 @@ Using java runtime at: /usr/lib/jvm/java-7-openjdk-amd64/jre
 Error occurred during initialization of VM
 Unable to load native library: /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/libjava.so: symbol JVM_SetNativeThreadName, version SUNWprivate_1.1 not defined in file libjvm.so with link time reference
 
+--这个问题主要是调用test_gamma测试的时候，jvm加载libjava.so的时候，没有JVM_SetNativeThreadName这个方法导致。
+
 --修复办法， hotspot/make/linux/Makefile
 
 ```c
