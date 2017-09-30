@@ -19,6 +19,58 @@ jdk/src/share/bin/main.c
 
 程序启动的时候，加载jvm，执行java代码。
 
+#### hotspot 初始化堆栈
+
+```c
+r -Xbatch -showversion -verbose:class -XX:+Verbose Queens
+-verbose:class ; 打印类加载过程
+-XX:+Verbose ; 打印详细信息
+
+// java 主线程
+Thread 2 (Thread 0x7ffff7fe3700 (LWP 3997)):
+#0  Threads::create_vm (args=0x7ffff7fe2e00, canTryAgain=0x7ffff7fe2db3) at /home/haska/jdk7/hotspot/src/share/vm/runtime/thread.cpp:3012
+#1  0x00007ffff726a935 in JNI_CreateJavaVM (vm=0x7ffff7fe2e58, penv=0x7ffff7fe2e60, args=0x7ffff7fe2e00) at /home/haska/jdk7/hotspot/src/share/vm/prims/jni.cpp:3356
+#2  0x0000000000405163 in InitializeJVM (pvm=0x7ffff7fe2e58, penv=0x7ffff7fe2e60, ifn=0x7ffff7fe2ef0) at /home/haska/jdk7/hotspot/src/share/tools/launcher/java.c:1288
+#3  0x0000000000403ee8 in JavaMain (_args=0x7fffffffc760) at /home/haska/jdk7/hotspot/src/share/tools/launcher/java.c:423
+#4  0x00007ffff677c184 in start_thread (arg=0x7ffff7fe3700) at pthread_create.c:312
+#5  0x00007ffff64a9bed in clone () at ../sysdeps/unix/sysv/linux/x86_64/clone.S:111
+
+// 主线程
+Thread 1 (Thread 0x7ffff7fe4740 (LWP 3978)):
+#0  0x00007ffff677d65b in pthread_join (threadid=140737354020608, thread_return=0x7fffffffc688) at pthread_join.c:92
+#1  0x0000000000402ebb in ContinueInNewThread (continuation=0x403e0c <JavaMain>, stack_size=1048576, args=0x7fffffffc760)
+    at /home/haska/jdk7/hotspot/src/os/posix/launcher/java_md.c:1836
+#2  0x0000000000403dee in main (argc=0, argv=0x7fffffffe8e8) at /home/haska/jdk7/hotspot/src/share/tools/launcher/java.c:389
+```
+
+初始化过程：
+
+1、主线程准备好相关环境参数，会创建一个Java主线程，线程函数是JavaMain
+
+2、java主线程函数里面调用InitializeJVM
+
+   ->JNI_CreateJavaVM ;来创建一个java虚拟机
+   
+     ->Threads::create_vm  ;里面做具体的初始化工作
+	   
+	   ->init_globals ;src/share/vm/runtime/init.cpp == 初始化全局模块
+
+	     ->classLoader_init ;src/share/vm/classfile/classLoader.cpp == ClassLoader初始化
+		 
+		   ->ClassLoader::initialize(); src/share/vm/classfile/classLoader.cpp == 引导类的加载，初始化一些性能数据，
+		   
+		     ->ClassLoader::setup_bootstrap_search_path; src/share/vm/classfile/classLoader.cpp == 装载类加载路径
+	     
+		 ->universe2_init	 
+		 
+		   ->SystemDictionary::initialize
+
+  		    ->SystemDictionary::initialize_preloaded_classes;src/share/vm/classfile/systemDictionary.cpp
+			   
+			   ->SystemDictionary::resolve_instance_class_or_null
+			     
+				 ->ClassLoader::load_classfile; src/share/vm/classfile/classLoader.cpp == 真正的加载类
+				 
 #### HotSpot SA(Serviceability Agent)
 
 #### OOP
