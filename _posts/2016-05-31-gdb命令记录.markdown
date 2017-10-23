@@ -105,3 +105,27 @@ Or <pre><code>set handle SIGPIPE nostop</code></pre> (in gdb prompt) to prevent 
 ### 20. 用gcore生成coredump文件
 
 gcore -o corefilename pid
+
+###	gcc
+
+####	-fstack-protector --param=ssp-buffer-size=4
+
+开启栈保护，当栈越界的时候，会发出SIGABORT信号。
+
+如下coredump stack，红色部分是栈溢出部分。
+```c
+#0  0xb7efe410 in __kernel_vsyscall ()
+#1  0xb7934095 in raise () from /lib/tls/i686/cmov/libc.so.6
+#2  0xb7935a11 in abort () from /lib/tls/i686/cmov/libc.so.6
+#3  0xb796eefc in ?? () from /lib/tls/i686/cmov/libc.so.6
+#4  0xb79faa18 in __fortify_fail () from /lib/tls/i686/cmov/libc.so.6
+#5  0xb79fa9d0 in __stack_chk_fail () from /lib/tls/i686/cmov/libc.so.6
+#6  0x080846b4 in __stack_chk_fail_local ()
+#7  0x0805c60b in SendPool::adjustTask (this=0xbf84bc20) at sendpool.cpp:222
+#8  0x20302030 in ?? ()
+Backtrace stopped: previous frame inner to this frame (corrupt stack?)
+```
+
+####	gcc -dM -E - < /dev/null
+
+显示gcc支持的所有宏
