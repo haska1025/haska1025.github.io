@@ -18,6 +18,8 @@ categories: linux
 
 [grymoire][grymoire]
 
+[syslog-ng-doc][syslog-ng-doc]
+
 https://www.sourceware.org/autobook/
 
 [makelinux]:  http://www.makelinux.com
