@@ -18,6 +18,8 @@ categories: linux
 
 [grymoire][grymoire]
 
+[syslog-ng-doc][syslog-ng-doc]
+
 https://www.sourceware.org/autobook/
 
 [makelinux]:  http://www.makelinux.com
@@ -26,6 +28,7 @@ https://www.sourceware.org/autobook/
 [glib]:http://ftp.acc.umu.se/pub/gnome/sources/glib/
 [tldp]:http://www.tldp.org/guides.html
 [grymoire]:http://www.grymoire.com/Unix/Sed.html#uh-47
+[syslog-ng-doc]:https://www.balabit.com/documents/syslog-ng-ose-latest-guides/en/syslog-ng-ose-guide-admin/html/configuration-syntax-notes.html
 
 ## 系统配置
 
