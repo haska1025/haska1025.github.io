@@ -22,6 +22,8 @@ categories: linux
 
 https://www.sourceware.org/autobook/
 
+https://www.dotdeb.org/instructions/
+
 [makelinux]:  http://www.makelinux.com
 [fnv]:   http://isthe.com/chongo/tech/comp/fnv/#FNV-0
 [stdc++]: http://gcc.gnu.org/onlinedocs/libstdc++/libstdc++-html-USERS-4.2/files.html
