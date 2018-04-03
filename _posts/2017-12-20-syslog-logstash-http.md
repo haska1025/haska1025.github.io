@@ -161,5 +161,7 @@ django 是一个python web框架，具体参考官方文档：
 
 https://docs.djangoproject.com/en/1.11/topics/install/
 
+https://www.howtoforge.com/tutorial/how-to-install-django-on-ubuntu/
+
 
 
