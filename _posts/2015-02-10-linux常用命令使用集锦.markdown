@@ -605,7 +605,7 @@ Updates an existing working copy to r1729
     2)	编译工程，测试工程
     3)	执行工程
     4)	lcov -d ../src -c -o bstest.info
-    5)	genhtml -o zhaobin bstest.info
+    5)	genhtml -o test bstest.info
     6)	w3m index.html
 
 **2.29	zcat, zless, zmore, zgrep, zcmp, zdiff**
