@@ -664,8 +664,11 @@ nameserver 192.168.1.3
 
 hosts:          files dns
 
-**2.33 linux memory buffer/cache
+**2.33 linux memory buffer/cache**
 
 <http://stackoverflow.com/questions/6345020/linux-memory-buffer-vs-cache>
 
+**2.34 ubuntu adduser **
+
+<https://blog.csdn.net/longgeaisisi/article/details/78879119>
 

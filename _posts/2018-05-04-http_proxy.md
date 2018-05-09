@@ -29,3 +29,9 @@ http://zh.linuxvirtualserver.org/handbooks
 keepalived是保证director server的 high available
 
 https://www.cnblogs.com/f-ck-need-u/p/8492298.html
+
+### keepalived
+
+libnl: netlink library
+
+http://www.infradead.org/~tgr/libnl/doc/core.html#_linking_to_this_library
