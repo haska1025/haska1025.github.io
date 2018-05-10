@@ -76,6 +76,8 @@ initctl stop logstash
 
 参考：http://nginx.org/en/docs/beginners_guide.html
 
+配置多virtual host: https://www.digitalocean.com/community/tutorials/how-to-set-up-nginx-server-blocks-virtual-hosts-on-ubuntu-16-04
+
 2. uwsgi配置
 
 在 /etc/nginx/conf.d/ 增加文件django.conf, 内容如下：

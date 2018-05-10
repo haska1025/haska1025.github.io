@@ -668,7 +668,18 @@ hosts:          files dns
 
 <http://stackoverflow.com/questions/6345020/linux-memory-buffer-vs-cache>
 
-**2.34 ubuntu adduser **
+**2.34 ubuntu adduser**
 
 <https://blog.csdn.net/longgeaisisi/article/details/78879119>
 
+<http://tangmingjie2009.iteye.com/blog/2195452>
+
+<https://askubuntu.com/questions/7477/how-can-i-add-a-new-user-as-sudoer-using-the-command-line>
+
+1. Add a normal user
+
+    $ sudo adduser <username>
+
+2. Add the new normal user as sudoer
+
+    $ sudo adduser <username> sudo

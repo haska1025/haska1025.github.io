@@ -30,6 +30,8 @@ keepalived是保证director server的 high available
 
 https://www.cnblogs.com/f-ck-need-u/p/8492298.html
 
+照着这个博客说明搭建DR模式的LVS系统，很容易搭建成功。
+
 ### keepalived
 
 libnl: netlink library
