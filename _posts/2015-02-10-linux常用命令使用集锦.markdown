@@ -683,3 +683,9 @@ hosts:          files dns
 2. Add the new normal user as sudoer
 
     $ sudo adduser <username> sudo
+
+**2.35 unlink vs remove**
+
+<https://stackoverflow.com/questions/2192415/unlink-vs-remove-in-c>
+
+<https://serverfault.com/questions/38816/what-is-the-difference-between-unlink-and-rm>
