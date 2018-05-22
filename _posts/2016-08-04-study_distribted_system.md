@@ -78,3 +78,5 @@ publish/subscribe
 [3] <http://stackoverflow.com/questions/6047917/zookeeper-alternatives-cluster-coordination-service>
 
 [4] <http://www.tutorialspoint.com/zookeeper/index.htm>
+
+[5] <http://lamport.azurewebsites.net/pubs/paxos-simple.pdf>
