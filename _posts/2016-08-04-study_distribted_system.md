@@ -80,3 +80,13 @@ publish/subscribe
 [4] <http://www.tutorialspoint.com/zookeeper/index.htm>
 
 [5] <http://lamport.azurewebsites.net/pubs/paxos-simple.pdf>
+
+[6] <https://www.microsoft.com/en-us/research/uploads/prod/2016/12/The-Part-Time-Parliament.pdf>
+
+[7] <http://www.inf.usi.ch/faculty/pedone/MScThesis/marco.pdf>
+
+[8] <https://raft.github.io/>
+
+[9] <https://stackoverflow.com/questions/22624569/leader-election-for-paxos-based-replicated-key-value-store>
+
+[10] <https://stackoverflow.com/questions/23798724/why-is-paxos-leader-election-not-done-using-paxos>
