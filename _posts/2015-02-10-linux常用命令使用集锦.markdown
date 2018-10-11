@@ -48,6 +48,8 @@ cat /etc/issue
 ### Ubuntu中用命令校正系统时间
 
     sudo ntpdate 210.72.145.44
+	
+	sudo ntpdate cn.pool.ntp.org
 
 ### Linux socket接收缓冲区大小的配置：
 

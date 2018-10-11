@@ -66,8 +66,29 @@ Separating policy from mechanism
 publish/subscribe
 
 
+### 分布式算法
 
+#### paxos
 
+[0] <http://paxos.systems/>
+
+[1] <http://lamport.azurewebsites.net/pubs/paxos-simple.pdf>
+
+[2] <https://www.microsoft.com/en-us/research/uploads/prod/2016/12/The-Part-Time-Parliament.pdf>
+
+[3] <https://stackoverflow.com/questions/22624569/leader-election-for-paxos-based-replicated-key-value-store>
+
+[4] <https://stackoverflow.com/questions/23798724/why-is-paxos-leader-election-not-done-using-paxos>
+
+[5] <https://mysqlhighavailability.com/the-king-is-dead-long-live-the-king-our-homegrown-paxos-based-consensus>
+
+[6] <https://stackoverflow.com/questions/10791825/implementation-of-paxos-algorithm>
+
+[7] <http://www.inf.usi.ch/faculty/pedone/MScThesis/marco.pdf>
+
+#### raft
+
+[1] <https://raft.github.io/>
 
 ### 参考
 
@@ -79,14 +100,7 @@ publish/subscribe
 
 [4] <http://www.tutorialspoint.com/zookeeper/index.htm>
 
-[5] <http://lamport.azurewebsites.net/pubs/paxos-simple.pdf>
 
-[6] <https://www.microsoft.com/en-us/research/uploads/prod/2016/12/The-Part-Time-Parliament.pdf>
 
-[7] <http://www.inf.usi.ch/faculty/pedone/MScThesis/marco.pdf>
 
-[8] <https://raft.github.io/>
 
-[9] <https://stackoverflow.com/questions/22624569/leader-election-for-paxos-based-replicated-key-value-store>
-
-[10] <https://stackoverflow.com/questions/23798724/why-is-paxos-leader-election-not-done-using-paxos>
