@@ -691,3 +691,9 @@ hosts:          files dns
 <https://stackoverflow.com/questions/2192415/unlink-vs-remove-in-c>
 
 <https://serverfault.com/questions/38816/what-is-the-difference-between-unlink-and-rm>
+
+**2.36 检查openssl版本号**
+
+strings libcrypto.so | grep "^OpenSSL \S\+ [0-9]\+ \S\+ [0-9]\+"
+
+参考：https://stackoverflow.com/questions/23320480/how-to-determine-version-of-openssl-library
