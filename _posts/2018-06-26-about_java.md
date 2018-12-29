@@ -64,3 +64,8 @@ https://blog.csdn.net/u011001723/article/details/46504843
 1. What's the difference between Jetty and Netty?
 
 https://stackoverflow.com/questions/5385407/whats-the-difference-between-jetty-and-netty
+
+2. java-concurrency
+
+http://tutorials.jenkov.com/java-concurrency/thread-signaling.html
+
