@@ -28,3 +28,8 @@ non-EIM-NAT: 大意是，来自同一个socket的数据包，如果目的ip或�
 主要介绍NAT设备的各种特性，比如 ip和port转换的一些原则，包过滤原则等。
 
 了解清楚NAT的特性，才能去做穿越相关的工作。
+
+#### rfc5245
+
+主要讲述ICE (Interactive Connectivity Establishment)
+
