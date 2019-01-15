@@ -5,7 +5,21 @@ date:   2019-01-12 16:47:53
 categories: p2p
 ---
 
-### p2p relative
+### 介绍
+
+#### signaling server && stun && turn server比较分析
+
+signaling server: 基于webrtc的应用，控制服务器
+
+stun: 建立 peer to peer 直连用的，说白了只有在non-symetric NAT下面的host，才可以建立p2p。
+
+turn: 是一个relay server，只有当两个主机不能建立p2p直连的时候，如果仍然需要通信，那么需要turn server。
+
+参考：
+
+https://stackoverflow.com/questions/23715773/is-stun-server-absolutely-necessary-for-webrtc-when-i-have-a-socket-io-based-sig
+
+### RFC标准相关
 
 #### RFC5128
 
