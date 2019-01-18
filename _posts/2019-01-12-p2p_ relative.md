@@ -47,6 +47,10 @@ non-EIM-NAT: 大意是，来自同一个socket的数据包，如果目的ip或�
 
 主要讲述ICE (Interactive Connectivity Establishment)
 
+#### rfc4566
+
+主要讲述SDP(session description protocol)
+
 ### 工程实现
 
 这个开源项目是一个工程实现
