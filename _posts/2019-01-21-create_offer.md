@@ -1,4 +1,16 @@
-#Create offer
+# Create offer
+
+## object relation
+
+                                                                                            +------------------------------+
+                                                                                        +-->| TransportDescriptionFactory  |     
++----------------+    +---------------+           +----------------------------------+  |   +------------------------------+
+| PeerConnection |--->| WebRtcSession |---------->| WebRtcSessionDescriptionFactory  |--|   +--------------------------------+ 
++----------------+    +---------------+           +----------------------------------+  +-->| MediaSessionDescriptionFactory |
+                                                                                            +--------------------------------+
+                                                                                            
+                                                                                            
+## initial
 
 ```c
 PeerConnectionFactory::Initialize -----初始化
