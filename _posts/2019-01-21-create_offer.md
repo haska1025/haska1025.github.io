@@ -9,19 +9,23 @@
 +----------------+    +---------------+           +----------------------------------+  |   +------------------------------+
 | PeerConnection |--->| WebRtcSession |---------->| WebRtcSessionDescriptionFactory  |--|   +--------------------------------+ 
 +----------------+    +---------------+           +----------------------------------+  +-->| MediaSessionDescriptionFactory |
-                                  |                                                          +--------------------------------+
-                                  +--1--------3-+                                                         
-                                               \|/
-                                           +-------------+
-                                           | BaseChannel |
-                                           +-------------+
-                                                 /||\
-                                                  ||
-                                    +-------------++-------+-------------+
-                                    |                      |             |
-                            +--------------+  +--------------+ +-------------+
-                            | VoiceChannel |  | VideoChannel | | DataChannel |
-                            +--------------+  +--------------+ +-------------+
+                             |                                                          +--------------------------------+
+                             +--1------3-+                                                         
+                                        \|/
+                                 +-------------+                                 +--------------+
+                                 | BaseChannel |--1--------------------------1-->| MediaChannel |
+                                 +-------------+                                 +--------------+
+                                     /||\                                              /||\
+                                      ||                                                ||
+                        +-------------++-------+-------------+                  +-------++-------------+
+                        |                      |             |                  |                      |
+                 +--------------+  +--------------+ +-------------+    +-------------------+  +-------------------+
+                 | VoiceChannel |  | VideoChannel | | DataChannel |    | VoiceMediaChannel |  | VideoMediaChannel |
+                 +--------------+  +--------------+ +-------------+    +-------------------+  +-------------------+
+                                                                              /||\                     /||\
+                                                                   +-------------------------+ +---------------------+
+                                                                   | WebRtcVoiceMediaChannel | | WebRtcVideoChannel2 |
+                                                                   +-------------------------+ +---------------------+
 ```                                                                                            
                                                                                             
 ## initial
@@ -56,6 +60,10 @@ PeerConnection::SetLocalDescription
    --> WebRtcSession::CreateChannels
       --> WebRtcSession::CreateVoiceChannel
         --> ChannelManager::CreateVoiceChannel_w
+           --> CompositeMediaEngine<WebRtcVoiceEngine>::CreateChannel
+              --> WebRtcVoiceEngine::CreateChannel
+                 --> new WebRtcVoiceMediaChannel
+                 
            --> VoiceChannel::Init()
                --> BaseChannel::Init()
                   --> BaseChannel::SetTransport
