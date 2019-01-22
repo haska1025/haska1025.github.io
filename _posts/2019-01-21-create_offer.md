@@ -44,6 +44,21 @@ PeerConnection::SetLocalDescription
    --> WebRtcSession::CreateChannels
       --> WebRtcSession::CreateVoiceChannel
         --> ChannelManager::CreateVoiceChannel_w
+           --> VoiceChannel::Init()
+               --> BaseChannel::Init()
+                  --> BaseChannel::SetTransport
+                     --> BaseChannel::SetTransport_w
+                       == set_rtcp_transport_channel/// 创建rtcp 的transport channel
+                        --> TransportController::CreateTransportChannel_w
+                           --> TransportController::GetOrCreateTransport_w
+                              --> TransportController::CreateTransport_w
+                                 --> new DtlsTransport<P2PTransport>
+                           --> Transport::CreateChannel
+                              --> DtlsTransport<P2PTransport>::CreateTransportChannel
+                                 --> P2PTransport::CreateTransportChannel
+                                    --> new P2PTransportChannel(name(), component, port_allocator())
+                        == set_transport_channel ///设置rtp的transport channel
+            
            --> VoiceMediaChannel::CreateChannel
       --> WebRtcSession::CreateVoiceChannel     
  ```
