@@ -26,6 +26,13 @@ PeerConnectionFactory::Initialize -----初始化
                          -->  WebRtcIdentityRequestObserver::OnSuccess
                             --> SignalCertificateReady ===发信号
                             --> WebRtcSessionDescriptionFactory::SetCertificate
-                            
+                               --> WebRtcSessionDescriptionFactory::InternalCreateOffer
+                                  --> MediaSessionDescriptionFactory::CreateOffer
+                                     --> MediaSessionDescriptionFactory::AddAudioContentForOffer///增加audio媒体描述，主要是填充AudioContentDescription
+                                        --> CreateMediaContentOffer /// 将Option等结构中的数据填充到AudioContentDescription
+                                        --> AddTransportOffer /// 增加和传输相关的内容信息
+                                     --> MediaSessionDescriptionFactory::AddVideoContentForOffer///增加video相关媒体描述，具体流程类似音频  
+                                  --> WebRtcSessionDescriptionFactory::PostCreateSessionDescriptionSucceeded///结构创建完成，投递消息，会通知给CreateSessionDescriptionObserver，这个结构需要Application实现的。
+                                  
           
 ```
