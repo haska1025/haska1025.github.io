@@ -58,14 +58,14 @@ PeerConnectionFactory::Initialize -----初始化
 PeerConnection::SetLocalDescription
 --> WebRtcSession::SetLocalDescription
    --> WebRtcSession::CreateChannels
-      --> WebRtcSession::CreateVoiceChannel
+      --> WebRtcSession::CreateVoiceChannel/// 音频channel的创建流程
         --> ChannelManager::CreateVoiceChannel_w
            --> CompositeMediaEngine<WebRtcVoiceEngine>::CreateChannel
               --> WebRtcVoiceEngine::CreateChannel
                  --> new WebRtcVoiceMediaChannel
-                 
-           --> VoiceChannel::Init()
-               --> BaseChannel::Init()
+           --> new VoiceChannel       
+              --> VoiceChannel::Init()
+                --> BaseChannel::Init()
                   --> BaseChannel::SetTransport
                      --> BaseChannel::SetTransport_w
                        == set_rtcp_transport_channel/// 创建rtcp 的transport channel
@@ -79,6 +79,7 @@ PeerConnection::SetLocalDescription
                                     --> new P2PTransportChannel(name(), component, port_allocator())
                         == set_transport_channel ///设置rtp的transport channel
             
-           --> VoiceMediaChannel::CreateChannel
-      --> WebRtcSession::CreateVoiceChannel     
+          
+      --> WebRtcSession::CreateVideoChannel /// 视频channel的创建流程和音频类似
+      
  ```
