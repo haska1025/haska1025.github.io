@@ -76,7 +76,7 @@ PeerConnectionFactory::Initialize -----初始化
 
 ```c
 PeerConnection::SetLocalDescription
---> WebRtcSession::SetLocalDescription
+ --> WebRtcSession::SetLocalDescription
    --> WebRtcSession::CreateChannels
       --> WebRtcSession::CreateVoiceChannel/// 音频channel的创建流程
         --> ChannelManager::CreateVoiceChannel_w
@@ -101,5 +101,15 @@ PeerConnection::SetLocalDescription
             
           
       --> WebRtcSession::CreateVideoChannel /// 视频channel的创建流程和音频类似
-      
+  --> WebRtcSession::MaybeStartGathering
+     --> TransportController::MaybeStartGathering()
+     --> TransportController::MaybeStartGathering_w
+        --> Transport::MaybeStartGathering
+           --> Transport::CallChannels
+              --> P2PTransportChannel::MaybeStartGathering()
+                 --> PortAllocator::CreateSession
+                    --> BasicPortAllocator::CreateSessionInternal
+                       --> new BasicPortAllocatorSession
+                          --> BasicNetworkManager::StartUpdating()
+                             --> 
  ```
