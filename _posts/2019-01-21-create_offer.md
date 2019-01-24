@@ -125,6 +125,8 @@ PeerConnection::SetLocalDescription
                                 --> AllocationSequence::OnMessage 
                                    --> AllocationSequence::CreateUDPPorts()
                                       --> UDPPort::Create
+                                         --> new UDPPort
+                                         --> UDPPort::Init() /// 绑定了AsyncSocket和UDPPort两层之间的信号通信
                                       --> BasicPortAllocatorSession::AddAllocatedPort
                                          --> UDPPort::PrepareAddress()
                                             --> UDPPort::OnLocalAddressReady /// 没有获取到网卡地址列表，会尝试设置一个缺省地址
