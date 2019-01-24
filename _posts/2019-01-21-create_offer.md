@@ -128,5 +128,13 @@ PeerConnection::SetLocalDescription
                                       --> BasicPortAllocatorSession::AddAllocatedPort
                                          --> UDPPort::PrepareAddress()
                                             --> UDPPort::OnLocalAddressReady /// 没有获取到网卡地址列表，会尝试设置一个缺省地址
-                                               -->  Port::AddAddress /// 生成local candidate
+                                               --> Port::AddAddress /// 生成local candidate
+                                               --> UDPPort::MaybePrepareStunCandidate()
+                                                  --> UDPPort::SendStunBindingRequests()
+                                                     --> UDPPort::SendStunBindingRequest
+                                                        --> new StunBindingRequest /// 生成请求报文
+                                                        --> StunRequestManager::Send
+                                                           --> StunRequestManager::SendDelayed /// 通过消息MSG_STUN_SEND 倒一次线程到StunRequest::OnMessage完成
+                                                           
+                                                     
  ```
