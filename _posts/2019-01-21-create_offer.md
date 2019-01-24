@@ -134,7 +134,10 @@ PeerConnection::SetLocalDescription
                                                      --> UDPPort::SendStunBindingRequest
                                                         --> new StunBindingRequest /// 生成请求报文
                                                         --> StunRequestManager::Send
-                                                           --> StunRequestManager::SendDelayed /// 通过消息MSG_STUN_SEND 倒一次线程到StunRequest::OnMessage完成
+                                                          /// 通过消息MSG_STUN_SEND 倒一次线程到StunRequest::OnMessage完成
+                                                          /// StunRequest::OnMessage只是将StunRequest序列化成ByteBuffer，然后，
+                                                          /// 通过信号manager_->SignalSendPacket，最后是到在UDPPort::OnSendPacket，通过socket发送出去
+                                                           --> StunRequestManager::SendDelayed 
                                                            
                                                      
  ```
