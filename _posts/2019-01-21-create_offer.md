@@ -61,7 +61,11 @@
  BaseChannel持有2个TransportChannel实例，一个是rtp，另一个是rtcp。
  
  WebRtcSession 中有三个BaseChannel实例，分别是audio，video，data
-  
+ 
+ StunRequestManager 主要职责是：
+ 1、维护了所有的StunRequest, key是transcactionid
+ 2、定时检查是否收到响应
+ 
 ```                                                                                            
                                                                                             
 ## initial
