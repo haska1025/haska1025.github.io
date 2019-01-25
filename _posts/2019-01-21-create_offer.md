@@ -163,3 +163,16 @@ PeerConnection::SetLocalDescription
                                                            
                                                      
  ```
+ 
+ ## recv the response for StunQuestBing 
+ 
+ ```c
+   ///如果是socket共享模式，在AllocationSequence调用init的时候，设置了OnReadPacket来响应AsyncSocket的read事件。
+   ///否则，是在UDPPort里面创建socket，并且响应socket的read事件。
+   AllocationSequence::OnReadPacket
+   --> UDPPort::HandleIncomingPacket
+      --> UDPPort::OnReadPacket
+         /// 如果是发给Stun server的响应包，走匹配逻辑
+         --> StunRequestManager::CheckResponse
+            --> StunMessage::Read /// 反序列化
+            --> StunRequestManager::CheckResponse
