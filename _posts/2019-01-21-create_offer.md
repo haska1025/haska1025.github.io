@@ -164,7 +164,7 @@ PeerConnection::SetLocalDescription
                                                      
  ```
  
- ## recv the response for StunQuestBing 
+ ## recv the response for StunRequestBinding 
  
  ```c
    ///如果是socket共享模式，在AllocationSequence调用init的时候，设置了OnReadPacket来响应AsyncSocket的read事件。
