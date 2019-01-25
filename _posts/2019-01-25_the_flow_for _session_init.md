@@ -214,3 +214,10 @@ a=ssrc:2600335466 msid:stream_label video_label\r\n
 a=ssrc:2600335466 mslabel:stream_label\r\n
 a=ssrc:2600335466 label:video_label\r\n
 ```
+#### candidate转发报文格式
+
+{
+   "candidate" : "candidate:499871822 1 udp 2122260223 192.168.29.99 52120 typ host generation 0 ufrag jZBwD+MPnR3diyqI",
+   "sdpMLineIndex" : 1,
+   "sdpMid" : "video"
+}
