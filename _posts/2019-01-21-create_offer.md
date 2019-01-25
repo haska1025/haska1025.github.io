@@ -153,6 +153,90 @@
    a=ssrc:3444384719 label:video_label\r\n
 ```
 
+## answer
+
+```c
+v=0\r\n
+o=- 473499626881440663 2 IN IP4 127.0.0.1\r\n
+s=-\r\n
+t=0 0\r\n
+a=group:BUNDLE audio video\r\n
+a=msid-semantic: WMS stream_label\r\n
+m=audio 9 UDP/TLS/RTP/SAVPF 111 103 104 9 102 0 8 106 105 13 127 126\r\n
+c=IN IP4 0.0.0.0\r\n
+a=rtcp:9 IN IP4 0.0.0.0\r\n
+a=ice-ufrag:suBkY3uWqx/Auins\r\n
+a=ice-pwd:CK7slog4ign5HQCIgLf0IMPU\r\n
+a=fingerprint:sha-256 C5:F0:47:0B:65:41:05:4E:34:07:B8:41:F9:60:98:06:8E:87:10:1D:A2:BB:90:A1:D4:82:46:2F:03:19:CF:2F\r\n
+a=setup:active\r\n
+a=mid:audio\r\n
+a=extmap:1 urn:ietf:params:rtp-hdrext:ssrc-audio-level\r\n
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n
+a=sendrecv\r\n
+a=rtcp-mux\r\n
+a=rtpmap:111 opus/48000/2\r\n
+a=rtcp-fb:111 transport-cc\r\n
+a=fmtp:111 minptime=10; useinbandfec=1\r\n
+a=rtpmap:103 ISAC/16000\r\n
+a=rtpmap:104 ISAC/32000\r\n
+a=rtpmap:9 G722/8000\r\n
+a=rtpmap:102 ILBC/8000\r\n
+a=rtpmap:0 PCMU/8000\r\n
+a=rtpmap:8 PCMA/8000\r\n
+a=rtpmap:106 CN/32000\r\n
+a=rtpmap:105 CN/16000\r\n
+a=rtpmap:13 CN/8000\r\n
+a=rtpmap:127 red/8000\r\n
+a=rtpmap:126 telephone-event/8000\r\n
+a=maxptime:60\r\n
+a=ssrc:4039702718 cname:/2LmE6VojgltLKZr\r\n
+a=ssrc:4039702718 msid:stream_label audio_label\r\n
+a=ssrc:4039702718 mslabel:stream_label\r\n
+a=ssrc:4039702718 label:audio_label\r\n
+m=video 9 UDP/TLS/RTP/SAVPF 100 101 116 117 96 97 98\r\n
+c=IN IP4 0.0.0.0\r\n
+a=rtcp:9 IN IP4 0.0.0.0\r\n
+a=ice-ufrag:suBkY3uWqx/Auins\r\n
+a=ice-pwd:CK7slog4ign5HQCIgLf0IMPU\r\n
+a=fingerprint:sha-256 C5:F0:47:0B:65:41:05:4E:34:07:B8:41:F9:60:98:06:8E:87:10:1D:A2:BB:90:A1:D4:82:46:2F:03:19:CF:2F\r\n
+a=setup:active\r\n
+a=mid:video\r\n
+a=extmap:2 urn:ietf:params:rtp-hdrext:toffset\r\n
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time\r\n
+a=extmap:4 urn:3gpp:video-orientation\r\n
+a=sendrecv\r\n
+a=rtcp-mux\r\n
+a=rtpmap:100 VP8/90000\r\n
+a=rtcp-fb:100 ccm fir\r\n
+a=rtcp-fb:100 nack\r\n
+a=rtcp-fb:100 nack pli\r\n
+a=rtcp-fb:100 goog-remb\r\n
+a=rtcp-fb:100 transport-cc\r\n
+a=rtpmap:101 VP9/90000\r\n
+a=rtcp-fb:101 ccm fir\r\n
+a=rtcp-fb:101 nack\r\n
+a=rtcp-fb:101 nack pli\r\n
+a=rtcp-fb:101 goog-remb\r\n
+a=rtcp-fb:101 transport-cc\r\n
+a=rtpmap:116 red/90000\r\n
+a=rtpmap:117 ulpfec/90000\r\n
+a=rtpmap:96 rtx/90000\r\n
+a=fmtp:96 apt=100\r\n
+a=rtpmap:97 rtx/90000\r\n
+a=fmtp:97 apt=101\r\n
+a=rtpmap:98 rtx/90000\r\n
+a=fmtp:98 apt=116\r\n
+a=ssrc-group:FID 3930323380 2600335466\r\n
+a=ssrc:3930323380 cname:/2LmE6VojgltLKZr\r\n
+a=ssrc:3930323380 msid:stream_label video_label\r\n
+a=ssrc:3930323380 mslabel:stream_label\r\n
+a=ssrc:3930323380 label:video_label\r\n
+a=ssrc:2600335466 cname:/2LmE6VojgltLKZr\r\n
+a=ssrc:2600335466 msid:stream_label video_label\r\n
+a=ssrc:2600335466 mslabel:stream_label\r\n
+a=ssrc:2600335466 label:video_label\r\n
+```
+
 ## initial
 
 ```c
