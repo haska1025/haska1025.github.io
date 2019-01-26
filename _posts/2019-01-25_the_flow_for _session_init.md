@@ -40,6 +40,14 @@ categories: webrtc
    对于非对称NAT，A->B 发送一个数据包，B的NAT会丢弃，但是同时在A的NAT戳了一个洞，当B->A发送数据包的时候，A就可以收到;
    
    此时A再次向B发送数据包，这样就完成了P2P穿越。
+   
+
+参考：
+
+这是csdn网友整理的，流程基本是ok的。
+
+https://blog.csdn.net/zhuiyuanqingya/article/details/81712851
+
 
 ### offer/answer 报文格式
 
