@@ -63,11 +63,11 @@
     |     |                                                         +-------------------------+ +---------------------+
     |     |                                                         | WebRtcVoiceMediaChannel | | WebRtcVideoChannel2 |
     |     +---------------------------------------------------+     +-------------------------+ +---------------------+
-    |                                                         |  
-    |                                                         |
-+---------------------+          +-----------+         +------------------+
-| TransportController |-1-----N->| Transport |-1----N->| TransportChannel |
-+---------------------+          +-----------+         +------------------+
+    |                                                         |                   | 1:N
+    |                                                         |                  \|/
++---------------------+          +-----------+         +------------------+   +---------------------+
+| TransportController |-1-----N->| Transport |-1----N->| TransportChannel |   |WebRtcAudioSendStream|
++---------------------+          +-----------+         +------------------+   +---------------------+
                                        /||\                      /||\
                                         ||                        ||                                                         
                                +--------------+       +----------------------+
@@ -160,6 +160,16 @@ PeerConnection::SetLocalDescription
             
           
       --> WebRtcSession::CreateVideoChannel /// 视频channel的创建流程和音频类似
+  /// 更新audio track
+  --> UpdateLocalTracks
+     --> OnLocalTrackSeen
+        --> AudioRtpSender::SetAudioSend()
+           --> WebRtcSession::SetAudioSend
+              --> VoiceChannel::SetAudioSend
+                 --> 
+  /// 更新video track
+  --> UpdateLocalTracks
+  /// 开始收集本地candidate
   --> WebRtcSession::MaybeStartGathering
      --> TransportController::MaybeStartGathering()
      --> TransportController::MaybeStartGathering_w
