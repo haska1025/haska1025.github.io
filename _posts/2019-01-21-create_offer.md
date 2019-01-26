@@ -107,7 +107,7 @@
 ```                                                                                            
 
 
-## initial
+## PeerConnectionFactory initial
 
 ```c
 PeerConnectionFactory::Initialize -----初始化
@@ -129,6 +129,20 @@ PeerConnectionFactory::Initialize -----初始化
                                      --> MediaSessionDescriptionFactory::AddVideoContentForOffer///增加video相关媒体描述，具体流程类似音频  
                                   --> WebRtcSessionDescriptionFactory::PostCreateSessionDescriptionSucceeded///结构创建完成，投递消息，会通知给CreateSessionDescriptionObserver，这个结构需要Application实现的。                                  
           
+```
+## PeerConnection initial
+
+```c
+ PeerConnection::Initialize
+    --> PeerConnectionFactory::CreateMediaController
+       -->  MediaControllerInterface::Create
+          --> new MediaController
+             --> MediaController::Construct_w
+                --> webrtc::Call::Create
+                   --> internal::Call /// 启动了module_process_thread_和pacer_thread_
+     --> new WebRtcSession
+        --> WebRtcSession::Initialize
+                   
 ```
 
 ## set local session
