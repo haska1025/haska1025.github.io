@@ -203,6 +203,26 @@ PeerConnection::SetLocalDescription
                                                      
  ```
  
+ ## SetLocalSession/SetRemoteSession说明
+ 
+ 1. offerer 
+ 
+ 1.1 在调用CreateOffer成功后，在回调通知里面调用SetLocalSession
+ 
+ 2.1 将offer发送给answer
+ 
+ 2.3 收到answerer的answer以后，调用SetRemoteSession
+ 
+ 2. answerer 
+ 
+ 2.1 在收到Offer请求以后，先调用SetRemoteSession
+ 
+ 2.2 在收到offer请求后，在CreateAnswer成功后，在回调通知里面调用SetLocalSession
+ 
+ 2.3 将answer发送给offerer
+ 
+ 3. SetLocalSession和SetRemoteSession都会调用WebRtcSession::CreateChannels，不过都是在offer创建(offerer端)或者接收(answerer)的时候。
+ 
  ## recv the response for StunRequestBinding 
  
  ```c
