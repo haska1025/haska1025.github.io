@@ -163,10 +163,15 @@ PeerConnection::SetLocalDescription
   /// 更新audio track
   --> UpdateLocalTracks
      --> OnLocalTrackSeen
+      -->  AudioRtpSender::SetSsrc
         --> AudioRtpSender::SetAudioSend()
            --> WebRtcSession::SetAudioSend
               --> VoiceChannel::SetAudioSend
-                 --> 
+                 --> WebRtcVoiceMediaChannel::SetAudioSend
+                    --> WebRtcVoiceMediaChannel::SetLocalRenderer /// 主要是设置sink
+                       --> WebRtcVoiceMediaChannel::WebRtcAudioSendStream::Start
+                    --> WebRtcVoiceMediaChannel::MuteStream /// mute？
+                    
   /// 更新video track
   --> UpdateLocalTracks
   /// 开始收集本地candidate
