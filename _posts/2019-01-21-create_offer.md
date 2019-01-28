@@ -151,6 +151,21 @@ PeerConnectionFactory::Initialize -----初始化
 PeerConnection::SetLocalDescription
  --> WebRtcSession::SetLocalDescription
    --> WebRtcSession::CreateChannels
+   --> WebRtcSession::UpdateSessionState
+      --> WebRtcSession::PushdownMediaDescription
+         --> BaseChannel::PushdownLocalDescription
+            --> BaseChannel::SetLocalContent
+               --> VoiceChannel::SetLocalContent_w
+                  --> BaseChannel::UpdateLocalStreams_w
+                    --> WebRtcVoiceMediaChannel::AddSendStream
+                       --> WebRtcVoiceMediaChannel::CreateVoEChannel()
+                          --> engine()->CreateVoEChannel()/// 创建VoiceEngine的Channel
+                          /// 向VoiceEngine注册webrtc::Transport数据，接收编码以后的数据。
+                          /// 实际上通过webrtc::Transport接口回调的数据，已经是rtp_rtcp模块打了rtp头以后的数据包了。
+                          --> VoENetworkImpl::RegisterExternalTransport
+                       --> new WebRtcAudioSendStream
+                       
+                          
       --> WebRtcSession::CreateVoiceChannel/// 音频channel的创建流程
         --> ChannelManager::CreateVoiceChannel_w
            --> CompositeMediaEngine<WebRtcVoiceEngine>::CreateChannel
