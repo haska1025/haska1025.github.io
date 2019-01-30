@@ -150,22 +150,7 @@ PeerConnectionFactory::Initialize -----初始化
 ```c
 PeerConnection::SetLocalDescription
  --> WebRtcSession::SetLocalDescription
-   --> WebRtcSession::CreateChannels
-   --> WebRtcSession::UpdateSessionState
-      --> WebRtcSession::PushdownMediaDescription
-         --> BaseChannel::PushdownLocalDescription
-            --> BaseChannel::SetLocalContent
-               --> VoiceChannel::SetLocalContent_w
-                  --> BaseChannel::UpdateLocalStreams_w
-                    --> WebRtcVoiceMediaChannel::AddSendStream
-                       --> WebRtcVoiceMediaChannel::CreateVoEChannel()
-                          --> engine()->CreateVoEChannel()/// 创建VoiceEngine的Channel
-                          /// 向VoiceEngine注册webrtc::Transport数据，接收编码以后的数据。
-                          /// 实际上通过webrtc::Transport接口回调的数据，已经是rtp_rtcp模块打了rtp头以后的数据包了。
-                          --> VoENetworkImpl::RegisterExternalTransport
-                       --> new WebRtcAudioSendStream
-                       
-                          
+   --> WebRtcSession::CreateChannels   
       --> WebRtcSession::CreateVoiceChannel/// 音频channel的创建流程
         --> ChannelManager::CreateVoiceChannel_w
            --> CompositeMediaEngine<WebRtcVoiceEngine>::CreateChannel
@@ -187,9 +172,25 @@ PeerConnection::SetLocalDescription
                                     --> new P2PTransportChannel(name(), component, port_allocator())
                         == set_transport_channel ///设置rtp的transport channel
             
-          
+      ///在WebRtcSession::CreateChannels中调用    
       --> WebRtcSession::CreateVideoChannel /// 视频channel的创建流程和音频类似
-  /// 更新audio track
+  /// 在WebRtcSession::SetLocalDescription中调用
+  --> WebRtcSession::UpdateSessionState
+      --> WebRtcSession::PushdownMediaDescription
+         --> BaseChannel::PushdownLocalDescription
+            --> BaseChannel::SetLocalContent
+               --> VoiceChannel::SetLocalContent_w
+                  --> BaseChannel::UpdateLocalStreams_w
+                    --> WebRtcVoiceMediaChannel::AddSendStream
+                       --> WebRtcVoiceMediaChannel::CreateVoEChannel()
+                          --> engine()->CreateVoEChannel()/// 创建VoiceEngine的Channel
+                          /// 向VoiceEngine注册webrtc::Transport数据，接收编码以后的数据。
+                          /// 实际上通过webrtc::Transport接口回调的数据，已经是rtp_rtcp模块打了rtp头以后的数据包了。
+                          --> VoENetworkImpl::RegisterExternalTransport
+                       --> new WebRtcAudioSendStream
+                       
+                          
+  /// 更新audio track，在PeerConnection::SetLocalDescription中调用
   --> UpdateLocalTracks
      --> OnLocalTrackSeen
       -->  AudioRtpSender::SetSsrc
