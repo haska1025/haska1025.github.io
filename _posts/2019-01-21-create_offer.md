@@ -222,6 +222,7 @@ PeerConnection::SetLocalDescription
                           --> BasicPortAllocatorSession::OnAllocate() ///准备分配
                              --> BasicPortAllocatorSession::DoAllocate()
                                 --> BasicPortAllocatorSession::GetNetworks ///获取本地机器所有网卡的地址，貌似只是获取Ipv4地址
+                                /// 针对每个网卡都会建一个AllocationSequence实例
                                 --> new AllocationSequence
                                 --> AllocationSequence::Init() /// 创建一个udpsocket
                                 --> AllocationSequence::Start() /// 通过消息MSG_ALLOCATION_PHASE 倒一下线程
