@@ -47,6 +47,14 @@ non-EIM-NAT: 大意是，来自同一个socket的数据包，如果目的ip或�
 
 主要讲述ICE (Interactive Connectivity Establishment)
 
+ICE的实现有Lite和Full两种。
+
+前者不需要连通性检查，不需要交换canditates，所以不会收集到reflex candidates,只是收集host canditates。
+
+后者则需要连通性检查，需要部署turn或者stun server
+
+mediasoup是 Lite implmentation
+
 #### rfc4566
 
 主要讲述SDP(session description protocol)
