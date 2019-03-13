@@ -57,6 +57,12 @@ non-EIM-NAT: 大意是，来自同一个socket的数据包，如果目的ip或�
 
 https://tools.ietf.org/html/rfc5766
 
+#### rfc7667
+
+rtp拓扑结构说明，比如MCU，SFU等
+
+https://tools.ietf.org/html/rfc7667
+
 ### 工程实现
 
 这个开源项目是一个工程实现
