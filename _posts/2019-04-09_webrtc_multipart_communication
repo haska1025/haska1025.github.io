@@ -28,7 +28,10 @@ categories: webrtc
 
 针对这个问题，可以说两种做法都可以，但是各有优缺点。
 
-  - |单连接             |          多连接
-  - |      -|-
-优点 | 开销少           |  好调试，结构简单
-缺点 | 难调试，实现难    | 开销大
+  - |单连接              |          多连接
+  - |      -            |   -
+优点 | 开销少            |  好调试，结构简单
+缺点 | 难调试，实现难     | 开销大
+
+
+参考：https://bloggeek.me/webrtc-rtcpeerconnection-one-per-stream/
