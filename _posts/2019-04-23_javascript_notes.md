@@ -35,3 +35,8 @@ npm是基于node.js实现的一个JavaScript软件包管理工具。
 
 使用gulp来构建项目，需要一个gulpfile.js文件。
 
+### 安装
+
+npm install gulp --save-dev; 这是安装gulp包，--save-dev是填加到package.json的dev选项
+
+npm install gulp-cli;安装gulp 命令行工具
