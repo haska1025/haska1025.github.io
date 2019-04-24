@@ -24,6 +24,16 @@ npm是基于node.js实现的一个JavaScript软件包管理工具。
 查看当前目录(包含node_modules目录)安装的软件包：npm list
 
 查看模块的package.json文件: npm view <module name>
+  
+### 更新依赖包
+
+安装npm-check: npm install -g npm-check
+
+全局更新包：npm-check -u -g
+
+更新项目包：npm-check -u
+
+
 
 ## nvm (node version manager)
 
@@ -73,6 +83,14 @@ npm_mirror: https://npm.taobao.org/mirrors/npm/
 npm install gulp --save-dev; 这是安装gulp包，--save-dev是填加到package.json的dev选项
 
 npm install gulp-cli;安装gulp 命令行工具
+
+## uglify
+
+代码压缩工具
+
+## babel
+
+编译es6到es5
 
 ## 学习资源
 
