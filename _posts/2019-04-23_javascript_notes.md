@@ -27,6 +27,39 @@ npm是基于node.js实现的一个JavaScript软件包管理工具。
 
 ## nvm (node version manager)
 
+主要解决多个nodejs版本，导致的permission error。
+
+安装参考：https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+
+### 基本命令
+
+查看nvm版本：nvm -v
+
+查看安装的node：nvm list
+
+安装node: nvm install <版本号>, 例如：nvm install v10.15.1
+
+卸载node: nvm uninstall <版本号>
+
+应用node: nvm use <版本号>
+
+### 遇到的问题
+
+1. 安装v10.15.1的时候报如下错误，导致npm安装失败。
+
+```c
+Downloading npm version 6.4.1... Error while downloading https://github.com/npm/cli/archive/v6.4.1.zip - unexpected EOF
+Complete
+Installing npm v6.4.1...2019/04/24 11:06:04 Failed to extract npm. Could not find C:\Users\Administrator\AppData\Roaming\nvm\temp\nvm-npm\npm-6.4.1\bin
+```
+原因: 可能默认下载库的软件包有bug导致，修改成taobao的库，可以解决此问题。
+
+解决办法：设置nvm settings.txt文件，增加如下内容：
+
+node_mirror: https://npm.taobao.org/mirrors/node/
+
+npm_mirror: https://npm.taobao.org/mirrors/npm/
+   
 ## grunt
 
 ## gulp
