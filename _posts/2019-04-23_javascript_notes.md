@@ -94,7 +94,7 @@ npm install gulp-cli;安装gulp 命令行工具
 
 ## babel
 
-npm install gulp-babel @babel/core --save-dev
+npm install gulp-babel @babel/core @babel/preset-env --save-dev
 
 编译es6到es5
 
