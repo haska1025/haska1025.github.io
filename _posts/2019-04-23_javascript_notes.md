@@ -78,11 +78,15 @@ npm_mirror: https://npm.taobao.org/mirrors/npm/
 
 使用gulp来构建项目，需要一个gulpfile.js文件。
 
+gulp3 和gulp4在task添加上有区别，后者需要用gulp.series()
+
 ### 安装
 
 npm install gulp --save-dev; 这是安装gulp包，--save-dev是填加到package.json的dev选项
 
 npm install gulp-cli;安装gulp 命令行工具
+
+
 
 ## uglify
 
@@ -90,7 +94,19 @@ npm install gulp-cli;安装gulp 命令行工具
 
 ## babel
 
+npm install gulp-babel @babel/core --save-dev
+
 编译es6到es5
+
+## jshint
+
+静态JavaScript代码检查工具，从jslint演化而来。
+
+### 说明
+
+对浏览器内置对象，比如XMLHttpRequest会报错，“line 15, col 19, 'XMLHttpRequest' is not defined.”
+
+需要增加在脚本开头增加“/* jshint browser: true */”
 
 ## 学习资源
 
