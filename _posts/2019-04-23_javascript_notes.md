@@ -78,7 +78,13 @@ npm_mirror: https://npm.taobao.org/mirrors/npm/
 
 使用gulp来构建项目，需要一个gulpfile.js文件。
 
-gulp3 和gulp4在task添加上有区别，后者需要用gulp.series()
+### 问题
+
+- Gulp AssertionError [ERR_ASSERTION]: , how to specify task function?
+
+解决办法：gulp3 和gulp4在task添加上有区别，后者需要用gulp.series()或者gulp.parallel()
+
+参考：https://stackoverflow.com/questions/54677485/gulp-assertionerror-err-assertion-how-to-specify-task-function
 
 ### 安装
 
