@@ -114,6 +114,14 @@ npm install gulp-babel @babel/core @babel/preset-env --save-dev
 
 需要增加在脚本开头增加“/* jshint browser: true */”
 
+## 通过Node.js启动http服务
+
+安装： npm install http-server -g
+
+启动：http-server -p 10086 --cors
+
+注意，启动服务的时候，在你工作目录下面执行上面的命令。
+
 ## 学习资源
 
 promise：
