@@ -122,6 +122,20 @@ npm install gulp-babel @babel/core @babel/preset-env --save-dev
 
 注意，启动服务的时候，在你工作目录下面执行上面的命令。
 
+## 术语
+
+### Compiling vs Transpiling
+
+二者都是对源码进行转换，前者是从一种级别语言到另外一种级别语言，比如，c->机器码，也就是gcc完成的工作
+
+后者是同级别语言转换，比如，es6->es5
+
+参考：https://stackoverflow.com/questions/44931479/compiling-vs-transpiling
+
+### Tree shaking
+
+摇树？在 JavaScript 中删除无用代码。
+
 ## 学习资源
 
 promise：
@@ -130,3 +144,5 @@ http://liubin.org/promises-book/
 es6入门:
 http://es6.ruanyifeng.com/
 
+模块化：
+https://medium.freecodecamp.org/javascript-modules-a-beginner-s-guide-783f7d7a5fcc
