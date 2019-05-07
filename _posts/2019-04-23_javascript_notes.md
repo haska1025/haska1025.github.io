@@ -144,6 +144,12 @@ npm install gulp-babel @babel/core @babel/preset-env --save-dev
 
 ### shim vs polyfill
 
+shim : 对 API 调用进行拦截，适配目标浏览器。比如，某个 API 在不同浏览器实现不一样，shim 可以拦截，进行适配。
+
+polyfill: 能让某个不支持新API的浏览器，也能执行此接口。
+
+参考：
+
 https://stackoverflow.com/questions/6599815/what-is-the-difference-between-a-shim-and-a-polyfill
 
 ## 学习资源
