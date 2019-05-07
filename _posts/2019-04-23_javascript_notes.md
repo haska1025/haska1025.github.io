@@ -136,6 +136,10 @@ npm install gulp-babel @babel/core @babel/preset-env --save-dev
 
 摇树？在 JavaScript 中删除无用代码。
 
+### shim vs polyfill
+
+https://stackoverflow.com/questions/6599815/what-is-the-difference-between-a-shim-and-a-polyfill
+
 ## 学习资源
 
 promise：
