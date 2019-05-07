@@ -86,6 +86,11 @@ npm_mirror: https://npm.taobao.org/mirrors/npm/
 
 参考：https://stackoverflow.com/questions/54677485/gulp-assertionerror-err-assertion-how-to-specify-task-function
 
+
+- concat 的时候，不同js文件之间依赖顺序问题
+
+https://stackoverflow.com/questions/21961142/concat-scripts-in-order-with-gulp
+
 ### 安装
 
 npm install gulp --save-dev; 这是安装gulp包，--save-dev是填加到package.json的dev选项
@@ -121,6 +126,7 @@ npm install gulp-babel @babel/core @babel/preset-env --save-dev
 启动：http-server -p 10086 --cors
 
 注意，启动服务的时候，在你工作目录下面执行上面的命令。
+
 
 ## 术语
 
