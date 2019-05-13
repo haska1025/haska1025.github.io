@@ -23,3 +23,5 @@ https://blog.csdn.net/wsyabcde/article/details/79359938
 
 https://en.wikipedia.org/wiki/Voice_activity_detection
 
+#### 音视频同步
+http://dranger.com/ffmpeg/tutorial05.html
