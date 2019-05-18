@@ -127,6 +127,22 @@ npm install gulp-babel @babel/core @babel/preset-env --save-dev
 
 注意，启动服务的时候，在你工作目录下面执行上面的命令。
 
+## socket.io https
+1. 要生成证书
+2. 客户端配置 
+
+```js
+let options = {
+            secure:true,
+            reconnect:true,
+            rejectUnauthorized:false // 不增加这一项，会导致不通
+        };
+        let sock = io('https://192.168.43.49', options);
+```
+
+## log4js
+
+这个 v1 和v2 的配置有差异，需要注意。
 
 ## 术语
 
