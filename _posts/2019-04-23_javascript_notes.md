@@ -168,6 +168,10 @@ polyfill: 能让某个不支持新API的浏览器，也能执行此接口。
 
 https://stackoverflow.com/questions/6599815/what-is-the-difference-between-a-shim-and-a-polyfill
 
+## nodejs native
+
+https://www.nearform.com/blog/the-future-of-native-modules-in-node-js/
+
 ## 学习资源
 生成证书：
 https://flaviocopes.com/express-https-self-signed-certificate/
