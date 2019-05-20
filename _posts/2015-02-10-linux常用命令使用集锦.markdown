@@ -697,3 +697,28 @@ hosts:          files dns
 strings libcrypto.so | grep "^OpenSSL \S\+ [0-9]\+ \S\+ [0-9]\+"
 
 参考：https://stackoverflow.com/questions/23320480/how-to-determine-version-of-openssl-library
+
+** 2.37 普通用户可以监听保留端口
+
+重点：
+```
+Option 2: Use authbind to grant one-time access, with finer user/group/port control:
+
+The authbind (man page) tool exists precisely for this.
+
+Install authbind using your favorite package manager.
+
+Configure it to grant access to the relevant ports, e.g. to allow 80 and 443 from all users and groups:
+
+sudo touch /etc/authbind/byport/80
+sudo touch /etc/authbind/byport/443
+sudo chmod 777 /etc/authbind/byport/80
+sudo chmod 777 /etc/authbind/byport/443
+Now execute your command via authbind (optionally specifying --deep or other arguments, see the man page):
+
+authbind --deep /path/to/binary command line args
+E.g.
+
+authbind --deep java -jar SomeServer.jar
+```
+https://superuser.com/questions/710253/allow-non-root-process-to-bind-to-port-80-and-443
