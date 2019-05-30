@@ -61,7 +61,8 @@ candidate 格式如下：
 
 这是通过BNF(巴克斯范式）描述的，其中的 SP 表示分隔符。
 
- candidate-attribute   = "candidate" ":" foundation SP component-id SP
+```
+candidate-attribute   = "candidate" ":" foundation SP component-id SP
                            transport SP
                            priority SP
                            connection-address SP     ;from RFC 4566
@@ -71,23 +72,24 @@ candidate 格式如下：
                            [SP rel-port]
                            *(SP extension-att-name SP
                                 extension-att-value)
-                                
-<foundation>:  是一个最长为32个字符(字母，数字)的字符串。  It is an
+```
+
+foundation:  是一个最长为32个字符(字母，数字)的字符串。  It is an
       identifier that is equivalent for two candidates that are of the
       same type, share the same base, and come from the same STUN
       server.  foundation是用在 IC E的 Frozen 算法中。
        
-<component-id>:  is 是一个 1-256 范围内的正整数。 用于标识媒体流的 candidate 的。  此参数初始值必须是 1 。区分不同的candidate，每次都是在上一个值的基础上加 1。  对于基于 RTP 的媒体流，真实 RTP 媒体流的 candidates component ID 应该是 1, RTCP 流的 candidates 的 component ID应该是 2.  其他类型的媒体流，必须定义相关规范来表示不同流的 component ID。
+component-id:  is 是一个 1-256 范围内的正整数。 用于标识媒体流的 candidate 的。  此参数初始值必须是 1 。区分不同的candidate，每次都是在上一个值的基础上加 1。  对于基于 RTP 的媒体流，真实 RTP 媒体流的 candidates component ID 应该是 1, RTCP 流的 candidates 的 component ID应该是 2.  其他类型的媒体流，必须定义相关规范来表示不同流的 component ID。
 
-<transport>:  用于标识 candidate 采用的传输协议。此规范只是定义了 UDP。扩展可以用 TCP， DCCP。参考 RFC4340。
+transport:  用于标识 candidate 采用的传输协议。此规范只是定义了 UDP。扩展可以用 TCP， DCCP。参考 RFC4340。
      
-<priority>:  是一个正整数。范围是 1 ~ (2^31 - 1)。
+priority:  是一个正整数。范围是 1 ~ (2^31 - 1)。
        
-<connection-address>: candiate 的 IP 地址，可以是 IPV4，IPV6，域名。
+connection-address: candiate 的 IP 地址，可以是 IPV4，IPV6，域名。
 
 port: candiate的端口
 
-<cand-type>:  encodes the type of candidate.  This specification
+cand-type:  encodes the type of candidate.  This specification
       defines the values "host", "srflx", "prflx", and "relay" for host,
       server reflexive, peer reflexive, and relayed candidates,
       respectively.  The set of candidate types is extensible for the
