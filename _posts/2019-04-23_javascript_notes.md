@@ -53,6 +53,10 @@ npm是基于node.js实现的一个JavaScript软件包管理工具。
 
 应用node: nvm use <版本号>
 
+### 设置镜像
+
+给linux 设置国内镜像：export NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node
+
 ### 遇到的问题
 
 1. 安装v10.15.1的时候报如下错误，导致npm安装失败。
