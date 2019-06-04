@@ -171,6 +171,12 @@ dtls:
 
 https://tools.ietf.org/html/rfc6347
 
+#### rfc5246
+
+TLS1.2
+
+https://tools.ietf.org/html/rfc5246
+
 ### 工程实现
 
 这个开源项目是一个工程实现
