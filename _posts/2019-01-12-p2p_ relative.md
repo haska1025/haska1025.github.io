@@ -102,6 +102,53 @@ a=candidate:1 1 UDP 33554431 192.168.29.76 59338 typ host
 a=candidate:2621388111 1 udp 2122260223 192.168.40.107 55429 typ host generation 0 network-id 1
 
 
+##### Fingerprint/Thumbprint 
+
+Fingerprint 或者 Thumbprint(微软的叫法), 是数字证书的唯一标识。
+
+在一些平台上，用于在证书库里面查找证书。
+
+通过 openssl 工具获取 fingerprint 的方法。
+
+```
+SHA-256
+openssl x509 -noout -fingerprint -sha256 -inform pem -in [certificate-file.crt]
+ 
+SHA-1
+openssl x509 -noout -fingerprint -sha1 -inform pem -in [certificate-file.crt]
+ 
+MD5
+openssl x509 -noout -fingerprint -md5 -inform pem -in [certificate-file.crt]
+```
+通过 openssl API 获取的方法如下：
+```
+           Hash hash = availableHashes[i];
+291         unsigned int size;
+292         unsigned char fingerprint[EVP_MAX_MD_SIZE];
+293         char hex_fingerprint[EVP_MAX_MD_SIZE*3+1] = {0};
+294
+295         switch (hash)
+296         {
+297             case SHA1:
+298                 X509_digest(certificate, EVP_sha1(), fingerprint, &size);
+299                 break;
+300             case SHA224:
+301                 X509_digest(certificate, EVP_sha224(), fingerprint, &size);
+302                 break;
+303             case SHA256:
+304                 X509_digest(certificate, EVP_sha256(), fingerprint, &size);
+305                 break;
+306             case SHA384:
+307                 X509_digest(certificate, EVP_sha384(), fingerprint, &size);
+308                 break;
+309             case SHA512:
+310                 X509_digest(certificate, EVP_sha512(), fingerprint, &size);
+311                 break;
+312             default:
+313                 return Error("-DTLSConnection::Initialize() | Unknown hash [%d]\n",hash);
+314         }
+```
+
 #### rfc4566
 
 主要讲述SDP(session description protocol)
