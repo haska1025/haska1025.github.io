@@ -55,7 +55,13 @@ npm是基于node.js实现的一个JavaScript软件包管理工具。
 
 ### 设置镜像
 
-给linux 设置国内镜像：export NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node
+给linux 设置国内镜像：
+
+老版本：
+export NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node
+
+最新版本：
+export NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node
 
 ### 遇到的问题
 
