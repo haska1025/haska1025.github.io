@@ -177,6 +177,9 @@ TLS1.2
 
 https://tools.ietf.org/html/rfc5246
 
+MAC: Message Authentication Code
+
+
 ### 工程实现
 
 这个开源项目是一个工程实现
