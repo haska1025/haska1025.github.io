@@ -179,6 +179,11 @@ https://tools.ietf.org/html/rfc5246
 
 MAC: Message Authentication Code
 
+#### rfc6083
+
+dtls over sctp
+
+https://www.ietf.org/rfc/rfc6083.txt
 
 ### 工程实现
 
