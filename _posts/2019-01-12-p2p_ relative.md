@@ -185,6 +185,14 @@ dtls over sctp
 
 https://www.ietf.org/rfc/rfc6083.txt
 
+#### rfc5764
+
+DTLS-SRTP
+
+此协议的主要特点是: DTLS 主要是用于握手，证书，秘钥交换。数据的加密是用 SRTP 协议完成。
+
+https://tools.ietf.org/html/rfc5764
+
 ### 工程实现
 
 这个开源项目是一个工程实现
