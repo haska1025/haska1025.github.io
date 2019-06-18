@@ -33,6 +33,11 @@ npm是基于node.js实现的一个JavaScript软件包管理工具。
 
 更新项目包：npm-check -u
 
+linux 设置国内镜像：
+
+npm config set registry https://registry.npm.taobao.org
+
+npm config get registry
 
 
 ## nvm (node version manager)
