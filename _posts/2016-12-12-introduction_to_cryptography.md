@@ -5,7 +5,7 @@ date:   2016-12-12 15:47:53
 categories: cryptography
 ---
 
-### cryptography & encription
+### cryptography & encription 概念差异
 
 cryptography 和 encription都是指加密，密码，但是这两个概念使用起来有点差异。
 
@@ -33,10 +33,12 @@ encription是加密，用算法加密，是指一个动作。往往是指“将�
 
 #### 对称加密(Symmetric key cryptography)
 
-   对称加密是指加密、解密秘钥相同。常用的对称加密方法有 1）流式加密，对明文的每一个字节和秘钥进行运算，得到密文。
-   2) 块式加密，对明文的某几个字节作为一个单位，和秘钥进行运算，得到密文。
+   对称加密是指加密秘钥和解密秘钥相同。常用的对称加密方法有：
+   1. 流式加密，对明文的每一个字节和秘钥进行运算，得到密文。
    
-   常用的对称加密算法：DES,3DES,AES
+   2. 块式加密，对明文的某几个字节作为一个单位，和秘钥进行运算，得到密文。
+   
+   常用的对称加密算法：DES，3DES，AES
    
 #### 公钥加密(Public key cryptography)或非对称加密(asymmetric cryptography)
 
@@ -51,9 +53,9 @@ encription是加密，用算法加密，是指一个动作。往往是指“将�
 ### Public-key Infrastructure
 
    有了公钥加密算法，在不安全的通信环境下，可以安全的交换秘钥了。然而，通信两端在没有见面的情况下，怎么确认通信的另一方是靠谱的呢？
-   Internet PKI就是通过CAs(Certificate Authorities)来解决这个问题的。
+   Internet PKI 就是通过 CAs(Certificate Authorities) 来解决这个问题的。
 
-<pre>
+```
    +----------+  Request certificate issuance(CSR)  +-----+          CSR          +----+
    |Subcriber |------------------------------------>| RA  |---------------------->| CA |  
    +----------+     Certificate signed              +-----+    Certificate signed +----+
@@ -73,19 +75,18 @@ encription是加密，用算法加密，是指一个动作。往往是指“将�
    +---------------+               |                                    |
    | Relying Party |---------------+------------------------------------+
    +---------------+ 3. Check for revocation
-</pre>
-
+```
 #### Subcriber
 
-   准备提供安全服务的个人或者组织，往往需要向CA申请一个证书(certificate).
+   准备提供安全服务的个人或者组织，往往需要向 CA 申请一个证书(certificate).
 
 #### Registration authority
    
-   本地注册机构，对申请证书的用户，就行资料审核，确认等。是CA多分支组织架构中的一个分支结构。
+   本地注册机构(RA)，对申请证书的用户，就行资料审核，确认等。是 CA 多分支组织架构中的一个分支结构。
  
 #### Certification authority
 
-   证书颁发机构，是值得大家信任的一个组织。提供证书发行，管理，吊销等服务。目前的CA有很多。
+   证书颁发机构(CA)，是值得大家信任的一个组织。提供证书发行，管理，吊销等服务。目前的 CA 有很多。
  
 #### Relying party
 
@@ -93,7 +94,7 @@ encription是加密，用算法加密，是指一个动作。往往是指“将�
 
 #### X.509
 
-   x.509是PKI的国际标准。PKI x.509工作组叫PKIX, 目前发布的主要标准文档是RFC 5280
+   x.509 是 PKI 的国际标准。PKI x.509 工作组叫 PKIX, 目前发布的主要标准文档是 RFC 5280。
    
 #### Certificate
 
@@ -125,4 +126,4 @@ encription是加密，用算法加密，是指一个动作。往往是指“将�
    
 #### 吊销(Revocation)
 
-   
+证书吊销也是 PKI 里面的一个流程，比如证书因为某种原因不再使用，可以向 CA 申请吊销。   
