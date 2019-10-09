@@ -29,3 +29,7 @@ https://en.wikipedia.org/wiki/Surround_sound#Mapping_channels_to_speakers
 
 #### 音视频同步
 http://dranger.com/ffmpeg/tutorial05.html
+
+#### 数字音频重采样理论
+
+https://ccrma.stanford.edu/~jos/resample/
