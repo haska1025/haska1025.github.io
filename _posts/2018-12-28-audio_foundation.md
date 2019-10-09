@@ -23,5 +23,9 @@ https://blog.csdn.net/wsyabcde/article/details/79359938
 
 https://en.wikipedia.org/wiki/Voice_activity_detection
 
+#### 环绕立体声
+
+https://en.wikipedia.org/wiki/Surround_sound#Mapping_channels_to_speakers
+
 #### 音视频同步
 http://dranger.com/ffmpeg/tutorial05.html
