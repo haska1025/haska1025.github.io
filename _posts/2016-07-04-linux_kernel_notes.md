@@ -203,4 +203,21 @@ struct inet_protosw {} /* This is used to register socket interfaces for IP prot
 
 linux epoll 实现文件
 
-          
+struct eventpoll -- 表示一个 epoll 实例
+
+struct epitem -- 每当调用 epoll_ctl 增加一个 fd，需要创建一个 struct epitem 结构，此结构会作为 rbtree 的一个节点。
+
+向 epoll 增加一个 fd 的过程：
+epoll_ctl() -> ep_insert() -> ep_rbtree_insert()
+
+tcp 触发事件的过程：
+```c
+ -> tcp_v4_rcv         net/ipv4/tcp_ipv4.c
+      -> tcp_v4_do_rcv    net/ipv4/tcp_ipv4.c
+        -> tcp_rcv_established     net/ipv4/tcp_input.c
+	  -> sk_data_ready  net/core/sock.c
+	    -> sock_def_readable  net/core/sock.c
+ ep_poll_callback
+   - 将 fd 添加到 epoll 的 ready list 中
+   - 激活由 epoll_wait 阻塞的进程
+```
