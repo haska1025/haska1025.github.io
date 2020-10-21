@@ -40,6 +40,18 @@ https://launchpad.net/
 
 cat /etc/issue
 
+### 设置 ubuntu 虚拟机自动获取 IP
+
+问题：在Ubuntu下无法自动获取IP地址，只出现环回地址127.0.0.1
+
+解决：在网上搜索了关于netplan、以及网络的各种配置均没有解决问题，因此这时可以重启，
+
+然后 ifconfig 依旧没有自动获取IP地址
+此时，在命令行输入 dhclient 命令即可，再次 ifconfig 获取IP地址成功！
+```
+#sudo dhclient
+```
+
 ### linux下修改时间为上海时间[东8区]
 
     mv  /etc/localtime /etc/localtime.bak
